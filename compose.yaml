@@ -1,6 +1,24 @@
 version: "3.9"
 
 services:
+  back:
+    build: back/.
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: back.settings.dev
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    volumes:
+      - .:/code  # Mount code for development
+      - static_volume:/code/static  # For static files
+      - media_volume:/code/media    # For media/uploads
+    
   postgres:
     image: postgres:alpine
     environment:
@@ -17,3 +35,5 @@ services:
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
