@@ -18,6 +18,9 @@ services:
       - .:/code  # Mount code for development
       - static_volume:/code/static  # For static files
       - media_volume:/code/media    # For media/uploads
+
+  front:
+    build: front/.
     
   postgres:
     image: postgres:alpine
