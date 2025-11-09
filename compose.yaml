@@ -21,6 +21,11 @@ services:
 
   front:
     build: front/.
+    ports: 
+      - "8080:5173"
+    volumes:
+      - ./front:/app
+      - /app/node_modules
     
   postgres:
     image: postgres:alpine
