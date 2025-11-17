@@ -1,14 +1,34 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { resolve } from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: "/static/",
+  build: {
+    manifest: "manifest.json",
+    outDir: resolve(__dirname, '../back/back/static'),
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/main.js')
+      }
+    }
+  },
   server: {
-    host: '0.0.0.0',
+    host: '0.0.0.0',  // ← Listen on all interfaces
     port: 5173,
+    strictPort: true,
+
+    // HMR configuration for Docker
+    hmr: {
+      host: 'localhost',  // ← Browser connects via localhost
+      clientPort: 8080,   // ← Port exposed in docker-compose
+    },
+
+    // Watch configuration for Docker volumes
     watch: {
-      usePolling: true  // Needed for hot reload in Docker
+      usePolling: true,
+      interval: 1000,
     }
   }
 })
