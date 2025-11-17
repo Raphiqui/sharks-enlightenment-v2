@@ -24,9 +24,6 @@
         <base target="_blank">
         {% endif %}
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/back.css' %}">
-
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
@@ -39,9 +36,6 @@
         {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
-
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/back.js' %}"></script>
 
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
