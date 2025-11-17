@@ -1,4 +1,5 @@
 {% load static wagtailcore_tags wagtailuserbar %}
+{% load django_vite %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,9 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        {% vite_hmr_client %}
+        {% vite_asset "src/main.js" %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
@@ -42,5 +46,7 @@
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
         {% endblock %}
+
+        <div id="app"></div>
     </body>
 </html>
