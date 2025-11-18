@@ -190,5 +190,7 @@ DJANGO_VITE = {
     "default": {
         "dev_mode": True,
         "manifest_path": BASE_DIR / "static" / "manifest.json",
+        "dev_server_host": "localhost",  # Use the Docker service name
+        "dev_server_port": 8080,
     }
 }
