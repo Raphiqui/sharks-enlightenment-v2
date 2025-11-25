@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: ${POSTGRES_HOST}
     volumes:
-      - .:/code  # Mount code for development
+      - ./back:/code  # Mount code for development
       - static_volume:/code/static  # For static files
       - media_volume:/code/media    # For media/uploads
 
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./front:/app
       - /app/node_modules
-    
+
   postgres:
     image: postgres:alpine
     environment:
