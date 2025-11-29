@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_vite",
     "wagtail_localize",
+    "wagtail_localize.locales",
 ]
 
 MIDDLEWARE = [
@@ -195,3 +196,12 @@ DJANGO_VITE = {
         "dev_server_port": 8080,
     }
 }
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+]
+
+LANGUAGE_CODE = 'en-us'
+USE_I18N = True
