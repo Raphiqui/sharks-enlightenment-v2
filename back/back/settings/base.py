@@ -56,13 +56,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
@@ -199,11 +198,16 @@ DJANGO_VITE = {
     }
 }
 
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = [
     ('en', 'English'),
     ('es', 'Spanish'),
     ('fr', 'French'),
 ]
 
-LANGUAGE_CODE = 'en-us'
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
+
 USE_I18N = True
+
+WAGTAIL_I18N_ENABLED = True
