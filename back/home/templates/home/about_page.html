@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load i18n %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<a href="/">{% trans "Go back to home page" %}</a>
+{{ page.body|richtext }}
+
+{% endblock content %}
