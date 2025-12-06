@@ -38,8 +38,36 @@ class SharkThumbnail(StructBlock):
     class Meta:
         template = "sharks/thumbnail.html"
 
-    parent_page_types = ["home.HomePage"]
 
+class SharksPage(Page):
+    """
+    Page to display of the different type of sharks.
+    """
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+
+    sharks = StreamField(
+        [("shark_list", blocks.ListBlock(SharkThumbnail()))],
+        blank=True,
+        use_json_field=True,
+        max_num=1,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("sharks"),
+    ]
+
+    translatable_fields = [
+        TranslatableField("sharks")
+    ]
+
+
+class AboutPage(Page):
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+    
     body = RichTextField(_("Body"), blank=True)
 
     content_panels = Page.content_panels + [
