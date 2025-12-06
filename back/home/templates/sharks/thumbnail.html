@@ -1,0 +1,7 @@
+{% for block in page.sharks %}
+    {% if block.block_type == 'shark_list' %}
+        {% for shark in block.value %}
+          {{shark.name}}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
