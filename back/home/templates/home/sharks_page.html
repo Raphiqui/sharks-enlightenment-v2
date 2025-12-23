@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load i18n %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<a href="/">{% trans "Go back to home page" %}</a>
+
+{% for block in page.sharks %}
+    {% if block.block_type == 'shark_list' %}
+        {% for shark in block.value %}
+          {{shark.name}}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{% endblock content %}
