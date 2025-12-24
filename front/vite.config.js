@@ -30,5 +30,19 @@ export default defineConfig({
       usePolling: true,
       interval: 1000,
     }
-  }
+  },
+  // Optional: Silence Sass deprecation warnings. See note below.
+  css: {
+     preprocessorOptions: {
+        scss: {
+          silenceDeprecations: [
+            "import",
+            "mixed-decls",
+            "color-functions",
+            "global-builtin",
+            "if-function",
+          ],
+        },
+     },
+  },
 })
