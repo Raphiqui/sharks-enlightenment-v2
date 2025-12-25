@@ -12,14 +12,5 @@
 
 <a href="/">{% trans "Go back to home page" %}</a>
 
-{% for block in page.sharks %}
-    {% if block.block_type == 'shark_list' %}
-        {% for shark in block.value %}
-          <a href="{% pageurl shark.shark_page %}">
-            <h3>{{ shark.name }}</h3>
-          </a>
-        {% endfor %}
-    {% endif %}
-{% endfor %}
-
+{{page}}
 {% endblock content %}
