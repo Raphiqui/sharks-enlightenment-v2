@@ -35,6 +35,12 @@ class SharkThumbnail(StructBlock):
         label=_("Image"),
     )
 
+    shark_page = blocks.PageChooserBlock(
+        page_type='home.SharkPage',
+        required=True,
+        label=_("Shark Detail Page")
+    )
+
     class Meta:
         template = "sharks/thumbnail.html"
 
@@ -45,7 +51,7 @@ class SharksPage(Page):
     """
 
     parent_page_types = ["home.HomePage"]
-    subpage_types = []
+    subpage_types = ["home.SharkPage"]
 
     sharks = StreamField(
         [("shark_list", blocks.ListBlock(SharkThumbnail()))],
@@ -62,6 +68,24 @@ class SharksPage(Page):
         TranslatableField("sharks")
     ]
 
+
+class SharkPage(Page):
+
+    parent_page_types = ["home.SharksPage"]
+    subpage_types = []
+
+    name = models.CharField(_("Name of the shark"), max_length=255)
+
+    latin_name = models.CharField(_("Latin name"), max_length=255)
+    
+    content_panels = Page.content_panels + [
+        FieldPanel("name"),
+        FieldPanel("latin_name"),
+    ]
+
+    translatable_fields = [
+        TranslatableField("name")
+    ]
 
 class AboutPage(Page):
 
