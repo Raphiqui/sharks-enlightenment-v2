@@ -1,7 +1,6 @@
-{% for block in page.sharks %}
-    {% if block.block_type == 'shark_list' %}
-        {% for shark in block.value %}
-          {{shark.name}}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<a href="{% pageurl value.shark_page %}">
+    {% image value.image width-400 %}
+    <h3>{{ value.name }}</h3>
+</a>
