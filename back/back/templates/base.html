@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load i18n static wagtailcore_tags wagtailuserbar %}
 {% load django_vite %}
 
 <!DOCTYPE html>
@@ -33,14 +33,30 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+        {% include "layouts/default/header.html" %}
         {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+        <main id="main-content">
+
+          <div class="figure">
+              <svg class="figure-space" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" aria-hidden="true">
+                  <path class="egg" fill="currentColor" d="M150 250c-42.741 0-75-32.693-75-90s42.913-110 75-110c32.088 0 75 52.693 75 110s-32.258 90-75 90z"/>
+                  <ellipse fill="#ddd" cx="150" cy="270" rx="40" ry="7"/>
+              </svg>
+          </div>
+          <div class="main-text">
+              <h1>{% trans "Welcome to your new Wagtail site!" %}</h1>
+              <p>{% trans 'Please feel free to <a href="https://github.com/wagtail/wagtail/wiki/Slack">join our community on Slack</a>, or get started with one of the links below.' %}</p>
+          </div>
+
+          {% block content %}{% endblock %}
+        </main>
 
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
         {% endblock %}
 
         <div id="app"></div>
+        {% include "layouts/default/footer.html" %}
     </body>
 </html>
