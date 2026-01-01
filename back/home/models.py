@@ -14,6 +14,17 @@ from wagtail.fields import StreamField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
+# International Union for Conservation of Nature
+IUCN_STATUS = [
+    ("extinct", _("extinct")),
+    ("extinct in the wild", _("extinct in the wild")),
+    ("critical endangered", _("critical endangered")),
+    ("endangered", _("endangered")),
+    ("vulnerable", _("vulnerable")),
+    ("near threatened", _("near threatened")),
+    ("least concern", ("least concern"))
+]
+
 class HomePage(Page):
     body = RichTextField(_("Body"), blank=True)
 
@@ -77,7 +88,24 @@ class SharkPage(Page):
     name = models.CharField(_("Name of the shark"), max_length=255)
 
     latin_name = models.CharField(_("Latin name"), max_length=255)
-    
+   
+    image = ImageChooserBlock(
+        required=True,
+        help_text=_("Image of the shark"),
+        label=_("Image"),
+    )
+
+    size = models.CharField(_("Size"), max_length=255)
+
+    conservation_status = models.CharField(
+        _("Conservation status"),
+        max_length=100,
+        choices=IUCN_STATUS,
+        default=IUCN_STATUS[0],
+    )
+
+    description = RichTextField(_("Description"), blank=True)
+
     content_panels = Page.content_panels + [
         FieldPanel("name"),
         FieldPanel("latin_name"),
