@@ -13,9 +13,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: ${POSTGRES_HOST}
     volumes:
-      - ./back:/code  # Mount code for development
-      - static_volume:/code/static  # For static files
-      - media_volume:/code/media    # For media/uploads
+      - ./back:/app  # Mount code for development
+      - static_volume:/app/static  # For static files
+      - media_volume:/app/media    # For media/uploads
 
   front:
     build: front/.
