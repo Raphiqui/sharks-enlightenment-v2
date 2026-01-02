@@ -13,6 +13,7 @@ from wagtail.blocks import (
 from wagtail.fields import StreamField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images import get_image_model_string
 
 # International Union for Conservation of Nature
 IUCN_STATUS = [
@@ -89,10 +90,14 @@ class SharkPage(Page):
 
     latin_name = models.CharField(_("Latin name"), max_length=255)
    
-    image = ImageChooserBlock(
-        required=True,
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
         help_text=_("Image of the shark"),
-        label=_("Image"),
+        verbose_name=_("Image"),
     )
 
     size = models.CharField(_("Size"), max_length=255)
@@ -109,10 +114,16 @@ class SharkPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("name"),
         FieldPanel("latin_name"),
+        FieldPanel("image"),
+        FieldPanel("size"),
+        FieldPanel("conservation_status"),
+        FieldPanel("description"),
     ]
 
     translatable_fields = [
-        TranslatableField("name")
+        TranslatableField("name"),
+        TranslatableField("size"),
+        TranslatableField("description"),
     ]
 
 class AboutPage(Page):
