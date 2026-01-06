@@ -2,6 +2,7 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load i18n %}
+{% load wagtailimages_tags %}
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
@@ -11,4 +12,10 @@
 {% block content %}
 
 {{page}}
+{{page.name}}
+{{page.latin_name}}
+{% image page.image width-400 %}
+{{page.size}}
+{{page.conservation_status}}
+{% if page.description %}{{ page.description|richtext }}{% endif %}
 {% endblock content %}
