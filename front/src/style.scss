@@ -29,7 +29,17 @@ li {
   ul {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    margin: -10px;
+
+    li {
+      padding: 20px;
+    }
   }
+}
+
+a {
+  text-decoration: none;
 }
 
 header {
