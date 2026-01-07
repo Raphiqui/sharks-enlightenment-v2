@@ -12,10 +12,9 @@ html {
 }
 
 body {
-    max-width: 960px;
+    max-width: 1140px;
     min-height: 100vh;
     margin: 0 auto;
-    padding: 0 15px;
     color: #231f20;
     font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
     line-height: 1.25;
@@ -30,5 +29,14 @@ li {
   ul {
     display: flex;
     flex-wrap: wrap;
+  }
+}
+
+header {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 12px 0;
   }
 }
