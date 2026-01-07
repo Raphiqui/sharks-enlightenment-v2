@@ -1,6 +1,10 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <a href="{% pageurl value.shark_page %}">
-    {% image value.image width-400 %}
-    <h3>{{ value.name }}</h3>
+  <div class="card" style="width: 18rem;">
+    {% image value.image width-400 class="card-img-top" alt="" %}
+    <div class="card-body">
+      <p class="card-text">{{ value.name }}</p>
+    </div>
+  </div>
 </a>
