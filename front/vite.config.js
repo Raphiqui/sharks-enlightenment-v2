@@ -15,7 +15,7 @@ export default defineConfig({
     }
   },
   server: {
-    host: '0.0.0.0',  // ← Listen on all interfaces
+    host: '0.0.0.0',
     port: 5173,
     strictPort: true,
 
@@ -25,13 +25,12 @@ export default defineConfig({
       clientPort: 8080,   // ← Port exposed in docker-compose
     },
 
-    // Watch configuration for Docker volumes
     watch: {
       usePolling: true,
       interval: 1000,
     }
   },
-  // Optional: Silence Sass deprecation warnings. See note below.
+  
   css: {
      preprocessorOptions: {
         scss: {
