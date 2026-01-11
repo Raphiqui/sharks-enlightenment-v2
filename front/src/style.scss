@@ -51,3 +51,18 @@ header {
     padding: 12px 0;
   }
 }
+
+
+.blur-box {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background-color: #3a383880;
+  color: #fff;
+  display: flex;
+  display: grid;
+  justify-content: center;
+  border-radius: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
