@@ -11,11 +11,46 @@
 
 {% block content %}
 
-{{page}}
-{{page.name}}
-{{page.latin_name}}
-{% image page.image width-400 %}
-{{page.size}}
-{{page.conservation_status}}
-{% if page.description %}{{ page.description|richtext }}{% endif %}
+<div class="blur-box">
+  <div class="container">
+    <div class="row">
+      <div class="col shark-header">
+        <div class="shark-name">
+          {{ page.name }}
+        </div>
+        <div class="shark-name">
+          {{ page.latin_name }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="shark-image">
+          {% image page.image fill-1140x500 as img %}
+          <img src="{{ img.url }}" srcset="
+            {% image_url page.image 'fill-480x210' %} 480w,
+            {% image_url page.image 'fill-768x337' %} 768w,
+            {% image_url page.image 'fill-1140x500' %} 1140w
+          " sizes="(max-width: 768px) 100vw, 1140px" alt="{{ img.alt }}">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="shark-size">
+          {{ page.size }}
+        </div>
+      </div>
+      <div class="col">
+        {{ page.conservation_status }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {% if page.description %}{{ page.description|richtext }}{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

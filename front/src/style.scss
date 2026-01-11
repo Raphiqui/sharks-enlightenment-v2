@@ -18,6 +18,7 @@ body {
     color: #231f20;
     font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
     line-height: 1.25;
+    background-color: darkblue;
 }
 
 li {
@@ -49,9 +50,13 @@ header {
     justify-content: space-between;
     margin: 0 auto;
     padding: 12px 0;
+    color: white;
   }
 }
 
+#main-content {
+  margin-top: 80px;
+}
 
 .blur-box {
   -webkit-backdrop-filter: blur(12px);
@@ -66,3 +71,15 @@ header {
   overflow: hidden;
 }
 
+.shark-header {
+  height: 120px;
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.shark-image {
+  max-height: 500px;
+}
