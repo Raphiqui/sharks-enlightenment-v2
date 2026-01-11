@@ -50,7 +50,10 @@ header {
     justify-content: space-between;
     margin: 0 auto;
     padding: 12px 0;
-    color: white;
+    
+    a {
+      color: white;
+    }
   }
 }
 
