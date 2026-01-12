@@ -9,6 +9,8 @@ from wagtail.images import get_image_model_string
 from wagtail.blocks import (
     CharBlock,
     StructBlock,
+    BooleanBlock,
+    StreamBlock,
 )
 from wagtail.fields import StreamField
 from wagtail import blocks
@@ -55,6 +57,24 @@ class SharkThumbnail(StructBlock):
 
     class Meta:
         template = "sharks/thumbnail.html"
+
+
+class  _QuizResponseBlock(StructBlock):
+
+    response = CharBlock(help_text=_("Response"), required=True, label=_(""))
+
+    is_correct = BooleanBlock(help_text=_("Is correct"))
+
+
+class QuestionList(StructBlock):
+
+    question = CharBlock(help_text=_("Question"), required=True, label=_(""))
+
+    responses = StreamBlock(
+        [("response", _QuizResponseBlock())],
+        label=_("Responses"),
+        required=True,
+    )
 
 
 class SharksPage(Page):
@@ -125,6 +145,23 @@ class SharkPage(Page):
         TranslatableField("size"),
         TranslatableField("description"),
     ]
+
+
+class QuizPage(Page):
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+
+    quiz = StreamField(
+        [("question_list", blocks.ListBlock(QuestionList()))],
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("quiz"),
+    ]
+
 
 class AboutPage(Page):
 
