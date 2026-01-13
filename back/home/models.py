@@ -63,7 +63,7 @@ class  _QuizResponseBlock(StructBlock):
 
     response = CharBlock(help_text=_("Response"), required=True, label=_(""))
 
-    is_correct = BooleanBlock(help_text=_("Is correct"))
+    is_correct = BooleanBlock(help_text=_("Is correct"), required=False)
 
 
 class QuestionList(StructBlock):
