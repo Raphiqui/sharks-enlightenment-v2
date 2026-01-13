@@ -29,3 +29,7 @@ restart:
 	-docker volume prune -f
 	@echo "Restarting..."
 	-docker compose up
+
+migrate:
+	@echo "Applying migrations..."
+	-docker exec -it sharks-enlightenment-v2-back-1 sh -c "./manage.py makemigrations && ./manage.py migrate"
