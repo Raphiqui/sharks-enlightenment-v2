@@ -10,7 +10,12 @@
 
 {% block content %}
 
+<!-- Quiz doesn't need to have a specific page but
+an API call might be enough from the front component
+-->
+
 <div class="blur-box">
+  <div id="quiz"></div>
   <div class="quiz-container">
     <h1>{{ page.title }}</h1>
     {% for question_block in page.quiz %}

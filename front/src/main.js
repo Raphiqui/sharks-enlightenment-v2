@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import './style.scss'
 import * as bootstrap from 'bootstrap'
-import App from './App.vue'
+import Quiz from './components/Quiz.vue'
 
-createApp(App).mount('#app')
+createApp(Quiz).mount('#quiz')
