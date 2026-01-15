@@ -23,6 +23,3 @@ Development: Both back and front containers run
 Production: Only deploy the back/ directory with built assets included
 
 What to do next ?
-
- - Fix front container to use it instead of running vite server from local. So far there is an error on the page and vite server is not
- accessible.
