@@ -61,7 +61,7 @@ class SharkThumbnail(StructBlock):
 
 class _QuizResponseBlock(StructBlock):
 
-    response = CharBlock(help_text=_("Response"), required=True, label=_(""))
+    response = CharBlock(help_text=_(""), required=True, label=_("Response"))
 
     is_correct = BooleanBlock(help_text=_("Is correct"), required=False)
 
@@ -72,9 +72,11 @@ class QuestionList(StructBlock):
 
     responses = StreamBlock(
         [("response", _QuizResponseBlock())],
-        label=_("Responses"),
+        label=_("Possible answers"),
         required=True,
     )
+
+    answer = CharBlock(help_text=_(""), required=True, label=_("Correct answer"))
 
 
 class SharksPage(Page):
