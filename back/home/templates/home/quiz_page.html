@@ -2,45 +2,12 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load i18n %}
-{% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% endblock extra_css %}
+{% block body_class %}template-quizpage{% endblock %}
 
 {% block content %}
 
-<!-- Quiz doesn't need to have a specific page but
-an API call might be enough from the front component
--->
-
 <div class="blur-box">
   <div id="quiz"></div>
-  <div class="quiz-container">
-    <h1>{{ page.title }}</h1>
-    {% for question_block in page.quiz %}
-        {% for question in question_block.value %}
-            <div class="question-block" data-question-index="{{ forloop.counter0 }}">
-                <h3 class="question-title">{{ forloop.counter }}. {{ question.question }}</h3>
-                <div class="responses">
-                    {% for response_block in question.responses %}
-                        {% with response=response_block.value %}
-                            <label class="response-option">
-                                <input
-                                    type="radio"
-                                    name="question_{{ forloop.parentloop.parentloop.counter0 }}_{{ forloop.parentloop.counter0 }}"
-                                    value="{{ forloop.counter0 }}
-                                    data-correct="{{ response.is_correct|yesno:'true,false' }}"
-                                >
-                                <span>{{ response.response }}</span>
-                            </label>
-                        {% endwith %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-    {% endfor %}
-  </div>
 </div>
 
 {% endblock content %}
