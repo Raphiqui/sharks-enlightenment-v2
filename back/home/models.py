@@ -59,7 +59,7 @@ class SharkThumbnail(StructBlock):
         template = "sharks/thumbnail.html"
 
 
-class  _QuizResponseBlock(StructBlock):
+class _QuizResponseBlock(StructBlock):
 
     response = CharBlock(help_text=_("Response"), required=True, label=_(""))
 
