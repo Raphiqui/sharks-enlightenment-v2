@@ -1,5 +1,4 @@
-// Import all of Bootstrap’s CSS
-@import "bootstrap/scss/bootstrap";
+@import 'tailwindcss';
 
 html {
     box-sizing: border-box;
@@ -92,6 +91,5 @@ footer {
   max-height: 500px;
 
   img {
-    width: 100%;
   }
 }
