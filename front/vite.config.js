@@ -4,7 +4,7 @@ import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
-  plugins: [tailwindcss(), vue()],
+  plugins: [vue(), tailwindcss()],
   base: "/static/",
   build: {
     manifest: "manifest.json",
