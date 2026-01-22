@@ -93,3 +93,146 @@ footer {
   img {
   }
 }
+
+.shark-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.shark-card {
+  border-radius: 9999;
+  position: relative;
+  width: 224px;
+  cursor: pointer;
+  transition: all 0.7s;
+  opacity: 1;
+  transform: translateY(0);
+  
+  @media (min-width: 768px) {
+    grid-column: span 1;
+  }
+
+  &__container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    transition: all 0.7s;
+    aspect-ratio: 1 / 1;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s;
+
+    .shark-card:hover & {
+      transform: scale(1.1);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    transition: all 0.5s;
+    background: linear-gradient(
+      to top, 
+      rgba(0, 0, 0, 0.7) 0%, 
+      rgba(0, 0, 0, 0.2) 50%, 
+      transparent 100%
+    );
+  }
+
+  &__glow-border {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-2xl);
+    border: 2px solid transparent;
+    transition: border-color 0.5s;
+
+    .shark-card:hover & {
+      border-color: rgba(0, 200, 255, 0.4);
+    }
+  }
+
+  &__content {
+    position: absolute;
+    inset: 0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: all 0.5s;
+
+    @media (min-width: 768px) {
+      padding: 2rem;
+    }
+  }
+
+  &__tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+    color: rgba(0, 200, 255, 0.7);
+    background-color: rgba(0, 200, 255, 0.1);
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 200, 255, 0.2);
+    width: fit-content;
+    transition: all 0.3s;
+
+    .shark-card:hover & {
+      background-color: rgba(0, 200, 255, 0.15);
+      color: rgba(0, 200, 255, 0.9);
+    }
+  }
+
+  &__title {
+    font-family: var(--default-font-family);
+    font-weight: var(--font-weight-bold);
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s;
+    font-size: var(--text-xl);
+    line-height: 1.2;
+
+    @media (min-width: 768px) {
+      font-size: var(--text-2xl);
+    }
+
+    .shark-card:hover & {
+      color: #ffffff;
+    }
+  }
+
+  &__cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: #00c8ff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    transition: all 0.3s;
+    opacity: 1;
+
+    .shark-card:hover & {
+      color: #33d4ff;
+    }
+  }
+
+  &__arrow {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s;
+
+    .shark-card:hover & {
+      transform: translateX(0.25rem);
+    }
+  }
+}

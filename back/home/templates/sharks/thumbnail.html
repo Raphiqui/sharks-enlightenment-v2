@@ -1,10 +1,40 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<a href="{% pageurl value.shark_page %}">
-  <div class="card" style="width: 18rem;">
-    {% image value.image width-400 class="card-img-top" alt="" %}
-    <div class="card-body">
-      <p class="card-text">{{ value.name }}</p>
+<a href="{% pageurl value.shark_page %}" class="shark-card-link">
+  <div class="shark-card" style="transition-delay: 300ms;">
+    
+    <div class="shark-card__container">
+      {# Image #}
+      {% image value.image width-400 class="shark-card__image" alt=value.name %}
+      
+      {# Overlays #}
+      <div class="shark-card__overlay"></div>
+      
+      {# Glow Border on Hover #}
+      <div class="shark-card__glow-border"></div>
+      
+      {# Content #}
+      <div class="shark-card__content">
+        {# Scientific Name Tag #}
+        {% if value.scientific_name %}
+        <span class="shark-card__tag">
+          {{ value.scientific_name }}
+        </span>
+        {% endif %}
+        
+        {# Shark Name #}
+        <h3 class="shark-card__title">
+          {{ value.name }}
+        </h3>
+        
+        {# View More Indicator #}
+        <div class="shark-card__cta">
+          <span>Learn More</span>
+          <svg class="shark-card__arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </a>
