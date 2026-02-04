@@ -24,6 +24,7 @@ services:
     volumes:
       - ./front:/app
       - /app/node_modules
+      - ./back:/app/backend
 
   postgres:
     image: postgres:alpine

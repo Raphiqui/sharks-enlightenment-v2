@@ -1,23 +1,21 @@
-@import "tailwindcss";
-
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 body {
-    max-width: 1140px;
-    min-height: 100vh;
-    margin: 0 auto;
-    color: #231f20;
-    font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-    line-height: 1.25;
-    background-color: darkblue;
+  max-width: 1140px;
+  min-height: 100vh;
+  margin: 0 auto;
+  color: #231f20;
+  font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+  line-height: 1.25;
+  background-color: darkblue;
 }
 
 li {
@@ -49,7 +47,7 @@ header {
     justify-content: space-between;
     margin: 0 auto;
     padding: 12px 0;
-    
+
     a {
       color: white;
     }
@@ -90,8 +88,7 @@ footer {
 .shark-image {
   max-height: 500px;
 
-  img {
-  }
+  img {}
 }
 
 .shark-card-link {
@@ -108,7 +105,7 @@ footer {
   transition: all 0.7s;
   opacity: 1;
   transform: translateY(0);
-  
+
   @media (min-width: 768px) {
     grid-column: span 1;
   }
@@ -138,12 +135,10 @@ footer {
     position: absolute;
     inset: 0;
     transition: all 0.5s;
-    background: linear-gradient(
-      to top, 
-      rgba(0, 0, 0, 0.7) 0%, 
-      rgba(0, 0, 0, 0.2) 50%, 
-      transparent 100%
-    );
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        transparent 100%);
   }
 
   &__glow-border {

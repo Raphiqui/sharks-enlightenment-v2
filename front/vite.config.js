@@ -8,7 +8,7 @@ export default defineConfig({
   base: "/static/",
   build: {
     manifest: "manifest.json",
-    outDir: resolve(__dirname, '../back/back/static'),
+    outDir: resolve(__dirname, 'backend/back/static'),
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/main.js')
@@ -31,18 +31,18 @@ export default defineConfig({
       interval: 1000,
     }
   },
-  
+
   css: {
-     preprocessorOptions: {
-        scss: {
-          silenceDeprecations: [
-            "import",
-            "mixed-decls",
-            "color-functions",
-            "global-builtin",
-            "if-function",
-          ],
-        },
-     },
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: [
+          "import",
+          "mixed-decls",
+          "color-functions",
+          "global-builtin",
+          "if-function",
+        ],
+      },
+    },
   },
 })
