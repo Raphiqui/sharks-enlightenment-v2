@@ -1,40 +1,49 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<a href="{% pageurl value.shark_page %}" class="shark-card-link">
-  <div class="shark-card" style="transition-delay: 300ms;">
-    
-    <div class="shark-card__container">
-      {# Image #}
-      {% image value.image width-400 class="shark-card__image" alt=value.name %}
-      
-      {# Overlays #}
-      <div class="shark-card__overlay"></div>
-      
-      {# Glow Border on Hover #}
-      <div class="shark-card__glow-border"></div>
-      
-      {# Content #}
-      <div class="shark-card__content">
-        {# Scientific Name Tag #}
-        {% if value.scientific_name %}
-        <span class="shark-card__tag">
-          {{ value.scientific_name }}
-        </span>
-        {% endif %}
-        
-        {# Shark Name #}
-        <h3 class="shark-card__title">
-          {{ value.name }}
-        </h3>
-        
-        {# View More Indicator #}
-        <div class="shark-card__cta">
-          <span>Learn More</span>
-          <svg class="shark-card__arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </div>
-      </div>
-    </div>
+<div class="
+      group 
+      relative 
+      cursor-pointer 
+      transition-all 
+      duration-700 
+      {% if value.name == 'Great white shark'%}
+        md:col-span-2 
+      {% else %} 
+        md:col-span-1 
+     {% endif %}"
+>
+<a href="{% pageurl value.shark_page %}" class="relative overflow-hidden rounded-2xl transition-all duration-700 {% if  value.name == 'Great white shark' %} aspect-[16/9] {% else %} aspect-square {% endif%}">
+
+  {% image value.image width-400 class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt=value.name %}
+  
+  <!-- Overlays  -->
+  <div class="absolute inset-0 transition-all duration-500 
+    {% if value.name == 'Great white shark' %}bg-gradient-to-r from-background/90 via-background/50 to-transparent
+    {% else %} bg-gradient-to-t from-background/90 via-background/30 to-transparent
+    {% endif %}
+  "/>
+  
+  <!-- Glow Border on Hover -->
+  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-ocean-glow/30 transition-colors duration-500" />
+
+  <!-- Content -->
+  <div class="absolute inset-0 p-6 md:p-8 flex transition-all duration-500 
+       {% if value.name == 'Great white shark' %} flex-col justify-center
+       {% else %} flex-col justify-end
+       {% endif %}
+  ">
+    <span class="
+        inline-block px-3 py-1 mb-3 text-xs font-medium text-ocean-glow 
+        bg-ocean-glow/10 rounded-full backdrop-blur-sm border border-ocean-glow/20
+        w-fit transition-all duration-300 group-hover:bg-ocean-glow/20">
+      {{ value.scientific_name }}
+    </span>
+
+    <h3 class="font-serif font-bold text-foreground mb-2 transition-all duration-300 group-hover:text-ocean-glow
+              {% if value.name == 'Great white shark' %} text-3xl md:text-4xl {% else %} text-xl md:text-2xl {% endif %}"
+    >
+      {{ value.name }}
+    </h3>
   </div>
 </a>
+</div>
