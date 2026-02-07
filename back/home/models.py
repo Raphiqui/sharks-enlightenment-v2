@@ -25,8 +25,9 @@ IUCN_STATUS = [
     ("endangered", _("endangered")),
     ("vulnerable", _("vulnerable")),
     ("near threatened", _("near threatened")),
-    ("least concern", ("least concern"))
+    ("least concern", ("least concern")),
 ]
+
 
 class HomePage(Page):
     body = RichTextField(_("Body"), blank=True)
@@ -39,6 +40,7 @@ class HomePage(Page):
         TranslatableField("body"),
     ]
 
+
 class SharkThumbnail(StructBlock):
 
     name = CharBlock(help_text=_("Name of the shark"), required=True, label=_(""))
@@ -50,9 +52,7 @@ class SharkThumbnail(StructBlock):
     )
 
     shark_page = blocks.PageChooserBlock(
-        page_type='home.SharkPage',
-        required=True,
-        label=_("Shark Detail Page")
+        page_type="home.SharkPage", required=True, label=_("Shark Detail Page")
     )
 
     class Meta:
@@ -97,9 +97,7 @@ class SharksPage(Page):
         FieldPanel("sharks"),
     ]
 
-    translatable_fields = [
-        TranslatableField("sharks")
-    ]
+    translatable_fields = [TranslatableField("sharks")]
 
 
 class SharkPage(Page):
@@ -110,13 +108,13 @@ class SharkPage(Page):
     name = models.CharField(_("Name of the shark"), max_length=255)
 
     latin_name = models.CharField(_("Latin name"), max_length=255)
-   
+
     image = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=False,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
         help_text=_("Image of the shark"),
         verbose_name=_("Image"),
     )
@@ -168,14 +166,9 @@ class AboutPage(Page):
 
     parent_page_types = ["home.HomePage"]
     subpage_types = []
-    
+
     body = RichTextField(_("Body"), blank=True)
 
-    content_panels = Page.content_panels + [
-        FieldPanel("body")
-    ]
+    content_panels = Page.content_panels + [FieldPanel("body")]
 
-    translatable_fields = [
-        TranslatableField("body")
-    ]
-
+    translatable_fields = [TranslatableField("body")]
