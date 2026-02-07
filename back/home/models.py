@@ -88,10 +88,9 @@ class SharksPage(Page):
     subpage_types = ["home.SharkPage"]
 
     sharks = StreamField(
-        [("shark_list", blocks.ListBlock(SharkThumbnail()))],
+        [("shark_thumbnails", SharkThumbnail())],
         blank=True,
         use_json_field=True,
-        max_num=1,
     )
 
     content_panels = Page.content_panels + [
