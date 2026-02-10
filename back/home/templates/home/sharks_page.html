@@ -10,16 +10,6 @@
 
 {% block content %}
 
-<div class="">
-  <div class="">
-    {% for block in page.sharks %}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {% include_block block with index=forloop.counter %}
-      </div>
-    {% endfor %}
-  </div>
-</div>
-
 <section class="py-32 bg-gradient-to-b from-background via-card/30 to-background overflow-hidden">
   <div class="container mx-auto px-6">
 
