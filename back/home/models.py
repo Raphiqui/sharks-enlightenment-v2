@@ -29,7 +29,50 @@ IUCN_STATUS = [
 ]
 
 
-class HomePage(Page):
+class HeroMixin(Page):
+    """
+    Mixin for the hero section of all pages, if a page has a hero it'll be displayed
+    """
+
+    hero_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_("Image of the hero"),
+        verbose_name=_("Image"),
+    )
+
+    hero_bubble_text = models.CharField(
+        _("Text wrapped into a blue bubble"), max_length=255, blank=True, null=True
+    )
+
+    hero_title = models.CharField(
+        _("Title of the page"), max_length=255, blank=True, null=True
+    )
+
+    hero_subtitle = models.CharField(
+        _("Subtitle of the page"), max_length=255, blank=True, null=True
+    )
+
+    hero_cta_label = models.CharField(
+        _("Label of the cta"), max_length=255, blank=True, null=True
+    )
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel("hero_image"),
+        FieldPanel("hero_bubble_text"),
+        FieldPanel("hero_title"),
+        FieldPanel("hero_subtitle"),
+        FieldPanel("hero_cta_label"),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class HomePage(HeroMixin):
     body = RichTextField(_("Body"), blank=True)
 
     content_panels = Page.content_panels + [
@@ -79,7 +122,7 @@ class QuestionList(StructBlock):
     answer = CharBlock(help_text=_(""), required=True, label=_("Correct answer"))
 
 
-class SharksPage(Page):
+class SharksPage(HeroMixin):
     """
     Page to display of the different type of sharks.
     """
@@ -146,7 +189,7 @@ class SharkPage(Page):
     ]
 
 
-class QuizPage(Page):
+class QuizPage(HeroMixin):
 
     parent_page_types = ["home.HomePage"]
     subpage_types = []
@@ -162,7 +205,7 @@ class QuizPage(Page):
     ]
 
 
-class AboutPage(Page):
+class AboutPage(HeroMixin):
 
     parent_page_types = ["home.HomePage"]
     subpage_types = []
