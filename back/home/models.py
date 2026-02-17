@@ -2,7 +2,7 @@ from django.db import models
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from django.utils.translation import gettext_lazy as _
 from wagtail_localize.fields import TranslatableField
 from wagtail.images import get_image_model_string
@@ -48,8 +48,12 @@ class HeroMixin(Page):
         _("Text wrapped into a blue bubble"), max_length=255, blank=True, null=True
     )
 
-    hero_title = models.CharField(
-        _("Title of the page"), max_length=255, blank=True, null=True
+    hero_title_white = models.CharField(
+        _("Title of the page, white part"), max_length=255, blank=True, null=True
+    )
+
+    hero_title_blue = models.CharField(
+        _("Title of the page, blue part"), max_length=255, blank=True, null=True
     )
 
     hero_subtitle = models.CharField(
@@ -61,11 +65,17 @@ class HeroMixin(Page):
     )
 
     promote_panels = Page.promote_panels + [
-        FieldPanel("hero_image"),
-        FieldPanel("hero_bubble_text"),
-        FieldPanel("hero_title"),
-        FieldPanel("hero_subtitle"),
-        FieldPanel("hero_cta_label"),
+        MultiFieldPanel(
+            [
+                FieldPanel("hero_image"),
+                FieldPanel("hero_bubble_text"),
+                FieldPanel("hero_title_white"),
+                FieldPanel("hero_title_blue"),
+                FieldPanel("hero_subtitle"),
+                FieldPanel("hero_cta_label"),
+            ],
+            heading="Hero section",
+        ),
     ]
 
     class Meta:
