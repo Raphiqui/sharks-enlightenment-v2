@@ -1,17 +1,26 @@
 {% load wagtailcore_tags navigation_tags %} 
 {% load static %}
+{% load wagtailimages_tags %}
 
 {# ========== HERO SECTION ========== #}
 <section
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
 >
   {# Background Image #}
+  {% if page.hero_image %}
   <div class="absolute inset-0">
     <img
-      src="{% static 'images/shark-tunnel-hero.jpg' %}"
-      alt="Ocean underwater scene"
-      class="w-full h-full object-cover"
-    />
+    src="{% image_url page.hero_image 'width-1140' %}"
+    srcset="
+        {% image_url page.hero_image 'width-480' %} 480w,
+        {% image_url page.hero_image 'width-768' %} 768w,
+        {% image_url page.hero_image 'width-1140' %} 1140w,
+        {% image_url page.hero_image 'width-1920' %} 1920w
+    "
+    sizes="100vw"
+    alt="{{ page.hero_image.alt }}"
+    class="w-full h-full object-cover"
+/>
     <div
       class="absolute inset-0"
       style="
@@ -24,6 +33,7 @@
       "
     ></div>
   </div>
+  {% endif %}
 
   {# Animated Bubbles Container #}
   <div
