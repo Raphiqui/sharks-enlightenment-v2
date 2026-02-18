@@ -1,106 +1,6 @@
-html {
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-body {
-  max-width: 1140px;
-  min-height: 100vh;
-  margin: 0 auto;
-  color: #231f20;
-  font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-  line-height: 1.25;
-  background-color: black;
-}
-
-li {
-  list-style: none;
-}
-
-// Had to override bootstrap otherwise include_block create a list inside 'col' class
-.container {
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: -10px;
-    padding: unset;
-
-    li {
-      padding: 20px;
-    }
-  }
-}
-
-a {
-  text-decoration: none;
-}
-
-header {
-  nav {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    padding: 12px 0;
-
-    a {
-      color: white;
-    }
-  }
-}
-
-footer {
-  text-align: center;
-  color: white;
-}
-
-#main-content {
-  margin-top: 80px;
-}
-
-.blur-box {
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  background-color: #3a383880;
-  color: #fff;
-  display: flex;
-  display: grid;
-  justify-content: center;
-  border-radius: 12px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.shark-header {
-  height: 120px;
-  display: flex;
-  justify-self: center;
-  flex-direction: column;
-  text-align: center;
-  justify-content: space-evenly;
-}
-
-.shark-image {
-  max-height: 500px;
-
-  img {}
-}
-
-.shark-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
+/* ========== Shark Card BEM Component ========== */
 .shark-card {
-  border-radius: 9999;
   position: relative;
-  width: 224px;
   cursor: pointer;
   transition: all 0.7s;
   opacity: 1;
@@ -113,7 +13,7 @@ footer {
   &__container {
     position: relative;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: 1rem;
     transition: all 0.7s;
     aspect-ratio: 1 / 1;
   }
@@ -144,12 +44,12 @@ footer {
   &__glow-border {
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-2xl);
+    border-radius: 1rem;
     border: 2px solid transparent;
     transition: border-color 0.5s;
 
     .shark-card:hover & {
-      border-color: rgba(0, 200, 255, 0.4);
+      border-color: color-mix(in oklch, var(--ocean-glow), transparent 60%);
     }
   }
 
@@ -171,37 +71,37 @@ footer {
     display: inline-block;
     padding: 0.25rem 0.75rem;
     margin-bottom: 0.75rem;
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-medium);
-    color: rgba(0, 200, 255, 0.7);
-    background-color: rgba(0, 200, 255, 0.1);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: color-mix(in oklch, var(--ocean-glow), transparent 30%);
+    background-color: color-mix(in oklch, var(--ocean-glow), transparent 90%);
     border-radius: 9999px;
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 200, 255, 0.2);
+    border: 1px solid color-mix(in oklch, var(--ocean-glow), transparent 80%);
     width: fit-content;
     transition: all 0.3s;
 
     .shark-card:hover & {
-      background-color: rgba(0, 200, 255, 0.15);
-      color: rgba(0, 200, 255, 0.9);
+      background-color: color-mix(in oklch, var(--ocean-glow), transparent 85%);
+      color: var(--ocean-glow);
     }
   }
 
   &__title {
-    font-family: var(--default-font-family);
-    font-weight: var(--font-weight-bold);
-    color: #ffffff;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--foreground);
     margin-bottom: 0.5rem;
     transition: all 0.3s;
-    font-size: var(--text-xl);
+    font-size: 1.25rem;
     line-height: 1.2;
 
     @media (min-width: 768px) {
-      font-size: var(--text-2xl);
+      font-size: 1.5rem;
     }
 
     .shark-card:hover & {
-      color: #ffffff;
+      color: var(--ocean-glow);
     }
   }
 
@@ -210,14 +110,14 @@ footer {
     align-items: center;
     gap: 0.5rem;
     margin-top: 1rem;
-    color: #00c8ff;
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium);
+    color: var(--ocean-glow);
+    font-size: 0.875rem;
+    font-weight: 500;
     transition: all 0.3s;
     opacity: 1;
 
     .shark-card:hover & {
-      color: #33d4ff;
+      color: var(--bioluminescent);
     }
   }
 
@@ -229,5 +129,112 @@ footer {
     .shark-card:hover & {
       transform: translateX(0.25rem);
     }
+  }
+}
+
+/* ========== Hero Bubble (dynamically created via JS) ========== */
+.hero-bubble {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: color-mix(in oklch, var(--ocean-glow), transparent 80%);
+  animation-name: bubble;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* ========== Light Rays ========== */
+.light-ray {
+  position: absolute;
+  top: 0;
+  height: 120vh;
+  background: linear-gradient(to bottom,
+      color-mix(in oklch, var(--ocean-glow), transparent 90%),
+      color-mix(in oklch, var(--ocean-glow), transparent 95%),
+      transparent);
+}
+
+/* ========== Experience Card Hover Effects ========== */
+.experience-card {
+  &:hover .experience-card__image {
+    transform: scale(1.1);
+  }
+
+  &:hover .experience-card__overlay {
+    opacity: 0.9;
+  }
+
+  &:hover .experience-card__glow {
+    opacity: 1;
+  }
+
+  &:hover .experience-card__title {
+    transform: translateY(-0.5rem);
+  }
+
+  &:hover .experience-card__explore {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover .experience-card__arrow {
+    transform: translateX(0.25rem);
+  }
+}
+
+/* ========== Richtext Styling ========== */
+.richtext-content {
+  color: color-mix(in oklch, var(--foreground), transparent 15%);
+  line-height: 1.8;
+  font-size: 1.125rem;
+
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    color: var(--foreground);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    color: var(--ocean-glow);
+    border-bottom: 1px solid color-mix(in oklch, var(--ocean-glow), transparent 70%);
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--ocean-glow);
+    }
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--ocean-glow);
+    padding-left: 1.5rem;
+    color: color-mix(in oklch, var(--foreground), transparent 25%);
+    font-style: italic;
+    margin: 1.5rem 0;
   }
 }
