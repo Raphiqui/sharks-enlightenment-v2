@@ -116,7 +116,16 @@
       {{page.hero_subtitle}}
       </p>
       {% endif %}
+
+      {% page.hero_cta %}
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4"
+          style="animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.6s; opacity: 0;">
+        <a href="{{ page.hero_cta.page.url }}"
+              class="px-8 py-4 text-lg font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-200">
+              {{ page.hero_cta.label }}
+          </a>
       </div>
+      {% endif %}
   </div>
 
   {# Scroll Indicator #}
