@@ -16,6 +16,7 @@ from wagtail.fields import StreamField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images import get_image_model_string
+from .snippets import CallToAction
 
 # International Union for Conservation of Nature
 IUCN_STATUS = [
@@ -60,8 +61,14 @@ class HeroMixin(Page):
         _("Subtitle of the page"), max_length=255, blank=True, null=True
     )
 
-    hero_cta_label = models.CharField(
-        _("Label of the cta"), max_length=255, blank=True, null=True
+    hero_cta = models.ForeignKey(
+        CallToAction,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_("Call to action button for the hero"),
+        verbose_name=_("CTA"),
     )
 
     promote_panels = Page.promote_panels + [
@@ -72,7 +79,7 @@ class HeroMixin(Page):
                 FieldPanel("hero_title_white"),
                 FieldPanel("hero_title_blue"),
                 FieldPanel("hero_subtitle"),
-                FieldPanel("hero_cta_label"),
+                FieldPanel("hero_cta"),
             ],
             heading="Hero section",
         ),
