@@ -3,54 +3,112 @@
 {% load wagtailcore_tags %}
 {% load i18n %}
 {% load wagtailimages_tags %}
-{% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% endblock extra_css %}
+{% block body_class %}template-shark-{{page.title}}-page{% endblock %}
 
 {% block content %}
 
-<div class="blur-box">
-  <div class="container">
-    <div class="row">
-      <div class="col shark-header">
-        <div class="shark-name">
+<section class="pt-32 pb-16 min-h-screen">
+  <div class="w-full max-w-6xl mx-auto px-6">
+
+    {# Back Link #}
+    <a href="{{ page.get_parent.url }}"
+      class="inline-flex items-center gap-2 text-ocean-glow hover:text-bioluminescent transition-colors duration-200 mb-8 group">
+      <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      <span class="text-sm font-medium">Back to Sharks</span>
+    </a>
+
+    {# Hero Image #}
+    <div class="relative overflow-hidden rounded-2xl mb-12">
+      {% image page.image fill-1140x500 as img %}
+      <img src="{{ img.url }}" srcset="
+                    {% image_url page.image 'fill-480x210' %} 480w,
+                    {% image_url page.image 'fill-768x337' %} 768w,
+                    {% image_url page.image 'fill-1140x500' %} 1140w
+                " sizes="(max-width: 768px) 100vw, 1140px" alt="{{ img.alt }}"
+        class="w-full h-[300px] md:h-[500px] object-cover" />
+      <div class="absolute inset-0"
+        style="background: linear-gradient(to top, var(--background), color-mix(in oklch, var(--background), transparent 50%), transparent);">
+      </div>
+
+      {# Name overlay on image #}
+      <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+        <h1 class="font-serif text-4xl md:text-6xl font-bold text-foreground mb-2"
+          style="animation: fade-in-up 0.8s ease-out forwards;">
           {{ page.name }}
-        </div>
-        <div class="shark-name">
+        </h1>
+        <p class="text-lg text-ocean-glow/80 italic"
+          style="animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.15s; opacity: 0;">
           {{ page.latin_name }}
+        </p>
+      </div>
+    </div>
+
+    {# Info Cards #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+      style="animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.3s; opacity: 0;">
+
+      {# Size Card #}
+      <div class="rounded-xl p-6 backdrop-blur-md border border-border/50"
+        style="background-color: color-mix(in oklch, var(--card), transparent 30%);">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-full bg-ocean-glow/10 flex items-center justify-center">
+            <svg class="w-5 h-5 text-ocean-glow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+          </div>
+          <span class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Size (in meters)</span>
         </div>
+        <p class="text-2xl font-bold text-foreground">{{ page.size }}</p>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="shark-image">
-          {% image page.image fill-1140x500 as img %}
-          <img src="{{ img.url }}" srcset="
-            {% image_url page.image 'fill-480x210' %} 480w,
-            {% image_url page.image 'fill-768x337' %} 768w,
-            {% image_url page.image 'fill-1140x500' %} 1140w
-          " sizes="(max-width: 768px) 100vw, 1140px" alt="{{ img.alt }}">
+
+      {# Conservation Status Card #}
+      <div class="rounded-xl p-6 backdrop-blur-md border border-border/50"
+        style="background-color: color-mix(in oklch, var(--card), transparent 30%);">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <span class="text-sm font-medium text-muted-foreground uppercase tracking-wider">Conservation Status</span>
         </div>
+        <span class="inline-block px-4 py-2 text-sm font-semibold rounded-full
+                    {% if page.conservation_status == 'least concern' %}
+                        bg-green-500/10 text-green-400 border border-green-500/30
+                    {% elif page.conservation_status == 'near threatened' %}
+                        bg-yellow-500/10 text-yellow-400 border border-yellow-500/30
+                    {% elif page.conservation_status == 'vulnerable' %}
+                        bg-orange-500/10 text-orange-400 border border-orange-500/30
+                    {% elif page.conservation_status == 'endangered' %}
+                        bg-red-500/10 text-red-400 border border-red-500/30
+                    {% elif page.conservation_status == 'critical endangered' %}
+                        bg-red-700/10 text-red-500 border border-red-700/30
+                    {% else %}
+                        bg-muted text-muted-foreground border border-border
+                    {% endif %}
+                ">
+          {{ page.get_conservation_status_display }}
+        </span>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <div class="shark-size">
-          {{ page.size }}
-        </div>
-      </div>
-      <div class="col">
-        {{ page.conservation_status }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        {% if page.description %}{{ page.description|richtext }}{% endif %}
+
+    {# Description #}
+    {% if page.description %}
+    <div class="rounded-2xl p-8 md:p-12 backdrop-blur-md border border-border/50"
+      style="background-color: color-mix(in oklch, var(--card), transparent 30%); animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.45s; opacity: 0;">
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">About this Species</h2>
+      <div class="richtext-content">
+        {{ page.description|richtext }}
       </div>
     </div>
+    {% endif %}
+
   </div>
-</div>
+</section>
 
 {% endblock content %}
