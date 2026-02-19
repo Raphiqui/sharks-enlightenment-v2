@@ -38,7 +38,7 @@ class HeroMixin(Page):
     hero_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=False,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
         help_text=_("Image of the hero"),
