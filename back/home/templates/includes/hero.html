@@ -173,28 +173,4 @@
 
         setInterval(createBubble, 500);
     })();
-
-    // Intersection Observer for scroll-in animations
-    (function () {
-        const observerOptions = { threshold: 0.1 };
-
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('opacity-0', 'translate-y-10', 'translate-y-20');
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe the experiences header
-        const header = document.getElementById('experiences-header');
-        if (header) observer.observe(header);
-
-        // Observe all scroll-in elements
-        document.querySelectorAll('[data-animate="scroll-in"]').forEach(function (el) {
-            observer.observe(el);
-        });
-    })();
 </script>
