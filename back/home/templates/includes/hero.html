@@ -3,6 +3,7 @@
 {% load wagtailimages_tags %}
 
 {# ========== HERO SECTION ========== #}
+{% if page.hero_image or page.hero_title_white or page.hero_title_blue or page.hero_subtitle or page.hero_bubble_text or page.hero_cta %}
 <section
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
 >
@@ -148,6 +149,7 @@
     </svg>
   </div>
 </section>
+{% endif %}
 
 {# ========== Inline Scripts ========== #}
 <script>
