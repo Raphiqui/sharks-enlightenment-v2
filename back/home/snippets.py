@@ -43,3 +43,29 @@ class CallToAction(models.Model):
     class Meta:
         verbose_name = _("Call to Action")
         verbose_name_plural = _("Calls to Action")
+
+
+@register_snippet
+class SectionHeader(models.Model):
+    title = models.CharField(_("Title"), max_length=255)
+    subtitle = models.CharField(_("Subtitle"), max_length=255, blank=True, null=True)
+    eyebrow = models.CharField(
+        _("Eyebrow"),
+        help_text=_("Small blue text above the main title"),
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("subtitle"),
+        FieldPanel("eyebrow"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _("Section Header")
+        verbose_name_plural = _("Section Headers")
