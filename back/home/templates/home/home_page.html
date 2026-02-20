@@ -8,4 +8,15 @@
 
 {% include "includes/hero.html" %}
 
+
+        {% if page.body %}
+          <section class="py-16 bg-background">
+              <div class="w-full max-w-4xl mx-auto px-6">
+                  {% for block in page.body %}
+                    {% include_block block with index=forloop.counter0 %}
+                  {% endfor %}
+              </div>
+          </section>
+        {% endif %}
+
 {% endblock content %}
