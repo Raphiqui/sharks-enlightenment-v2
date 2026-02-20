@@ -6,17 +6,11 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from django.utils.translation import gettext_lazy as _
 from wagtail_localize.fields import TranslatableField
 from wagtail.images import get_image_model_string
-from wagtail.blocks import (
-    CharBlock,
-    StructBlock,
-    BooleanBlock,
-    StreamBlock,
-)
+from wagtail.blocks import CharBlock, StructBlock, BooleanBlock, StreamBlock, ListBlock
 from wagtail.fields import StreamField
-from wagtail import blocks
-from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images import get_image_model_string
 from .snippets import CallToAction
+from .blocks import SectionHeaderBlock, Heading, SharkThumbnail
 
 # International Union for Conservation of Nature
 IUCN_STATUS = [
@@ -90,33 +84,17 @@ class HeroMixin(Page):
 
 
 class HomePage(HeroMixin):
-    body = RichTextField(_("Body"), blank=True)
+    body = StreamField(
+        [
+            ("heading", Heading()),
+        ],
+        blank=True,
+        null=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("body"),
     ]
-
-    translatable_fields = [
-        TranslatableField("body"),
-    ]
-
-
-class SharkThumbnail(StructBlock):
-
-    name = CharBlock(help_text=_("Name of the shark"), required=True, label=_(""))
-
-    image = ImageChooserBlock(
-        required=True,
-        help_text=_("Image of the shark"),
-        label=_("Image"),
-    )
-
-    shark_page = blocks.PageChooserBlock(
-        page_type="home.SharkPage", required=True, label=_("Shark Detail Page")
-    )
-
-    class Meta:
-        template = "sharks/thumbnail.html"
 
 
 class _QuizResponseBlock(StructBlock):
@@ -212,7 +190,7 @@ class QuizPage(HeroMixin):
     subpage_types = []
 
     quiz = StreamField(
-        [("question_list", blocks.ListBlock(QuestionList()))],
+        [("question_list", ListBlock(QuestionList()))],
         blank=True,
         use_json_field=True,
     )
