@@ -1,7 +1,7 @@
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from django.utils.translation import gettext_lazy as _
-from wagtail.blocks import CharBlock, StructBlock, PageChooserBlock
+from wagtail.blocks import CharBlock, StructBlock, PageChooserBlock, StreamBlock
 
 
 class SectionHeaderBlock(SnippetChooserBlock):
@@ -46,3 +46,29 @@ class Heading(StructBlock):
         verbose_name_plural = _("Headings")
         template = "blocks/section_header.html"
         form_classname = "heading-block"
+
+
+class _Card(StructBlock):
+    title = CharBlock(label=_("Title"), required=True)
+    subtitle = CharBlock(label=_("Subtitle"), required=False)
+    link = PageChooserBlock(required=True, label=_(""))
+    click_label = CharBlock(label=_(""), required=False)
+
+    class Meta:
+        icon = "pilcrow"
+        template = "blocks/card.html"
+
+
+class CardGrid(StructBlock):
+    cards = StreamBlock(
+        [("card", _Card())],
+        label=_("Cards"),
+        required=True,
+    )
+
+    class Meta:
+        icon = "pilcrow"
+        verbose_name = _("Card Grid")
+        verbose_name_plural = _("Cards Grid")
+        template = "blocks/card-grid.html"
+        form_classname = "card-grid-block"

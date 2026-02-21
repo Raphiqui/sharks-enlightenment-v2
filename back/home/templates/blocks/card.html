@@ -1,0 +1,94 @@
+{% load wagtailcore_tags %}
+
+<div
+  class="experience-card relative overflow-hidden rounded-2xl opacity-0 translate-y-20 transition-all duration-700"
+  style="transition-delay: {{ forloop.counter0 }}50ms;"
+  data-animate="scroll-in"
+>
+  <a
+    href="{% pageurl value.link %}""
+    class="block relative h-full min-h-[300px] md:min-h-[400px]"
+  >
+    {# Card Image placeholder with gradient #}
+    <div
+      class="experience-card__image absolute inset-0 w-full h-full transition-transform duration-700"
+      style="
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklch, var(--ocean-deep), transparent 20%),
+          color-mix(in oklch, var(--primary), transparent 60%),
+          color-mix(in oklch, var(--ocean-glow), transparent 80%)
+        );
+      "
+    ></div>
+
+    {# Overlay #}
+    <div
+      class="experience-card__overlay absolute inset-0 opacity-80 transition-opacity duration-500"
+      style="
+        background: linear-gradient(
+          to top,
+          var(--background),
+          color-mix(in oklch, var(--background), transparent 50%),
+          transparent
+        );
+      "
+    ></div>
+
+    {# Glow bar on hover #}
+    <div
+      class="experience-card__glow absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none"
+    >
+      <div
+        class="absolute bottom-0 left-0 right-0 h-1"
+        style="
+          background: linear-gradient(
+            to right,
+            transparent,
+            var(--ocean-glow),
+            transparent
+          );
+        "
+      ></div>
+    </div>
+
+    {# Card Content #}
+    <div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+      <h3
+        class="experience-card__title font-serif text-xl md:text-2xl font-bold text-foreground mb-2 transition-transform duration-500"
+      >
+        {{ value.title }}
+      </h3>
+
+      {% if value.subtitle %}
+      <p
+        class="text-foreground/70 text-sm md:text-base transition-all duration-500"
+      >
+        {{ value.subtitle }}
+      </p>
+      {% endif %}
+
+      {# Explore link #}
+      {% if value.click_label %}
+      <div
+        class="experience-card__explore mt-4 flex items-center gap-2 text-ocean-glow opacity-0 translate-y-4 transition-all duration-500"
+      >
+        <span class="text-sm font-medium">{{ value.click_label }}</span>
+        <svg
+          class="experience-card__arrow w-4 h-4 transition-transform duration-300"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"
+          />
+        </svg>
+      </div>
+      {% endif %}
+    </div>
+  </a>
+</div>
