@@ -8,7 +8,8 @@
 
 {% include "includes/hero.html" %}
 
-
+<section id="experiences" class="py-24 md:py-32 bg-background">
+    <div class="w-full max-w-7xl mx-auto px-6">
         {% if page.body %}
           <section class="py-16 bg-background">
               <div class="w-full max-w-4xl mx-auto px-6">
@@ -18,5 +19,33 @@
               </div>
           </section>
         {% endif %}
+    </div>
+</section>
+
+<script>
+    // Intersection Observer for scroll-in animations
+    (function () {
+        const observerOptions = { threshold: 0.1 };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10', 'translate-y-20');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.experiences-header').forEach(header => {
+          observer.observe(header);
+
+          // Observe all scroll-in elements
+          document.querySelectorAll('[data-animate="scroll-in"]').forEach(function (el) {
+            observer.observe(el);
+          });
+        })
+    })();
+</script>
 
 {% endblock content %}
