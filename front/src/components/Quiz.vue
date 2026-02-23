@@ -19,6 +19,16 @@
     .then((res) => res.json())
     .then((json) => (data.value = json))
     .catch((err) => (error.value = err))
+
+  const questions = ref([]);
+  const userResponseSkeleton = ref(null);
+  const userResponses = ref(null);
+  const questionIndex = ref(0);
+  const show = ref(true);
+  const showQuestion = ref(true);
+  const showCorrectAnswer = ref(false);
+  const score = ref(0);
+  const isCorrect = ref(false);
 </script>
 
 <style scoped>
