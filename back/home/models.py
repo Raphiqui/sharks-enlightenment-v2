@@ -187,6 +187,12 @@ class QuizPage(HeroMixin):
     parent_page_types = ["home.HomePage"]
     subpage_types = []
 
+    body = StreamField(
+        [("heading", Heading())],
+        blank=True,
+        null=True,
+    )
+
     quiz = StreamField(
         [("question_list", ListBlock(QuestionList()))],
         blank=True,
@@ -194,6 +200,7 @@ class QuizPage(HeroMixin):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("body"),
         FieldPanel("quiz"),
     ]
 
