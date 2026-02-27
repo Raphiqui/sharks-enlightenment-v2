@@ -20,6 +20,14 @@ STORAGES["staticfiles"][
     "BACKEND"
 ] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
+# Django-Vite Configuration for Production
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": False,
+        "manifest_path": BASE_DIR / "static" / "manifest.json",
+    }
+}
+
 # Railway
 import dj_database_url
 
