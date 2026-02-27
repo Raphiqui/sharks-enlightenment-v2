@@ -1,13 +1,6 @@
-from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from django.utils.translation import gettext_lazy as _
 from wagtail.blocks import CharBlock, StructBlock, PageChooserBlock, StreamBlock
-
-
-class SectionHeaderBlock(SnippetChooserBlock):
-    class Meta:
-        template = "blocks/section_header.html"
-        icon = "title"
 
 
 class SharkThumbnail(StructBlock):
