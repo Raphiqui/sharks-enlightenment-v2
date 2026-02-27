@@ -143,6 +143,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     PROJECT_DIR / "static",
+    BASE_DIR / "static" / "dist",  # Add this so collected Vite assets are found
 ]
 
 STATIC_ROOT = BASE_DIR / "static"
