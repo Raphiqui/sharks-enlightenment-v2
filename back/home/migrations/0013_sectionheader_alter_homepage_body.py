@@ -59,8 +59,8 @@ class Migration(migrations.Migration):
                         {},
                     )
                 },
+                blank=True,
+                null=True,
             ),
-            blank=True,
-            null=True,
         ),
     ]
