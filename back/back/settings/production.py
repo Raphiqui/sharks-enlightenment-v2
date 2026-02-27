@@ -51,7 +51,7 @@ STORAGES["staticfiles"][
 DJANGO_VITE = {
     "default": {
         "dev_mode": False,
-        "manifest_path": BASE_DIR / "static" / "manifest.json",
+        "manifest_path": BASE_DIR / "static" / "dist" / "manifest.json",
     }
 }
 
