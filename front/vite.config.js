@@ -1,36 +1,36 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
-import tailwindcss from "@tailwindcss/vite"
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   base: "/static/",
   build: {
     manifest: "manifest.json",
-    outDir: resolve(__dirname, 'backend/back/static'),
+    outDir: resolve(__dirname, "../back/static/dist"),
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/main.js')
-      }
-    }
+        main: resolve(__dirname, "src/main.js"),
+      },
+    },
   },
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 5173,
     strictPort: true,
 
     // HMR configuration for Docker
     hmr: {
-      host: 'localhost',  // ← Browser connects via localhost
-      clientPort: 8080,   // ← Port exposed in docker-compose
+      host: "localhost", // ← Browser connects via localhost
+      clientPort: 8080, // ← Port exposed in docker-compose
     },
 
     watch: {
       usePolling: true,
       interval: 1000,
-      include: ['src/**', 'backend/**'], //
-    }
+      include: ["src/**", "backend/**"], //
+    },
   },
 
   css: {
@@ -46,4 +46,4 @@ export default defineConfig({
       },
     },
   },
-})
+});
