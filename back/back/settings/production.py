@@ -1,6 +1,5 @@
 from .base import *
 import os
-import logging
 
 DEBUG = False
 
@@ -34,6 +33,7 @@ LOGGING = {
 
 # Security
 SECURE_SSL_REDIRECT = False
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000
@@ -65,7 +65,14 @@ DJANGO_VITE = {
     }
 }
 
-# Railway
+# ── STATICFILES_DIRS override ───────────────────────────────────────────────
+# Remove the dist dir from STATICFILES_DIRS in production since collectstatic
+# will pick it up, and the dir must exist before collectstatic runs.
+# We keep only PROJECT_DIR/static (Django app static files).
+STATICFILES_DIRS = [
+    BASE_DIR / "static" / "dist",
+]
+
 import dj_database_url
 
 if os.environ.get("DATABASE_URL"):
