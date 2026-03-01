@@ -29,8 +29,6 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install "gunicorn==20.0.4"
-
 COPY back/requirements.txt /
 RUN pip install -r /requirements.txt
 
@@ -50,4 +48,4 @@ RUN mkdir -p /app/media /app/static
 
 RUN python manage.py collectstatic --noinput --clear
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --access-logfile - --error-logfile - --log-level debug
+CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
