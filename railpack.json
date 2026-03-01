@@ -6,7 +6,7 @@
   },
   "steps": {
     "install": {
-      "commands": ["pip install -r back/requirements.txt", "cd front && npm ci"]
+      "commands": ["pip install -r requirements.txt", "cd front && npm ci"]
     },
     "build": {
       "inputs": [{ "step": "install" }],
