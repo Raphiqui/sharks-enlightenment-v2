@@ -1,21 +1,18 @@
 {
   "$schema": "https://schema.railpack.com",
   "packages": {
-    "node": "20",
+    "node": "22",
     "python": "3.12"
   },
   "steps": {
     "install": {
-      "commands": [
-        "cd back && pip install -r requirements.txt",
-        "cd front && npm ci"
-      ]
+      "commands": ["pip install -r back/requirements.txt", "cd front && npm ci"]
     },
     "build": {
       "inputs": [{ "step": "install" }],
       "commands": [
         "cd front && npm run build",
-        "cd back && python manage.py collectstatic --noinput"
+        "DJANGO_SETTINGS_MODULE=back.settings.production python back/manage.py collectstatic --noinput"
       ]
     }
   },
