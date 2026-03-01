@@ -1,2 +1,0 @@
-release: cd back && python manage.py migrate --noinput
-web: cd back && gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --timeout 120
