@@ -14,7 +14,11 @@ FROM python:3.12-slim-bookworm
 
 RUN useradd wagtail
 
-ENV PYTHONUNBUFFERED=1
+# Found in the service -> Networking
+EXPOSE $PORT
+
+ENV PYTHONUNBUFFERED=1 \
+    PORT=$PORT
 
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
@@ -24,6 +28,8 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     zlib1g-dev \
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
+
+RUN pip install "gunicorn==20.0.4"
 
 COPY back/requirements.txt /
 RUN pip install -r /requirements.txt
