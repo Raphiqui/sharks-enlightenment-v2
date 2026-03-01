@@ -50,4 +50,4 @@ RUN mkdir -p /app/media /app/static
 
 RUN python manage.py collectstatic --noinput --clear
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --access-logfile - --error-logfile - --log-level debug
