@@ -4,6 +4,8 @@ import logging
 
 DEBUG = False
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -39,15 +41,23 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
-# ManifestStaticFilesStorage is recommended in production, to prevent
-# outdated JavaScript / CSS assets being served from cache
-# (e.g. after a Wagtail upgrade).
-# See https://docs.djangoproject.com/en/5.2/ref/contrib/staticfiles/#manifeststaticfilesstorage
-STORAGES["staticfiles"][
-    "BACKEND"
-] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+# ── Static files ──────────────────────────────────────────────────────────────
+# WhiteNoise serves static files directly from Django
+# See https://whitenoise.readthedocs.io/en/stable/django.html
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        # CompressedManifestStaticFilesStorage adds cache-busting hashes
+        # AND gzip/brotli compression via WhiteNoise
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
-# Django-Vite Configuration for Production
+# ── Django-Vite (production mode) ─────────────────────────────────────────────
+# In production, Vite assets are pre-built into back/static/dist/
+# The manifest.json tells django-vite which hashed filenames to inject.
 DJANGO_VITE = {
     "default": {
         "dev_mode": False,

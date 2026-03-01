@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "packages": {
+    "node": "20",
+    "python": "3.12"
+  },
+  "steps": {
+    "install": {
+      "commands": [
+        "cd back && pip install -r requirements.txt",
+        "cd front && npm ci"
+      ]
+    },
+    "build": {
+      "inputs": [{ "step": "install" }],
+      "commands": [
+        "cd front && npm run build",
+        "cd back && python manage.py collectstatic --noinput"
+      ]
+    }
+  },
+  "deploy": {
+    "startCommand": "cd back && gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+  }
+}

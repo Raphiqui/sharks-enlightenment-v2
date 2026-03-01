@@ -14,6 +14,8 @@ export default defineConfig({
         main: resolve(__dirname, "src/main.js"),
       },
     },
+    // Clear the output dir before each build
+    emptyOutDir: true,
   },
   server: {
     host: "0.0.0.0",
@@ -22,14 +24,14 @@ export default defineConfig({
 
     // HMR configuration for Docker
     hmr: {
-      host: "localhost", // ← Browser connects via localhost
+      host: "localhost",
       clientPort: 8080, // ← Port exposed in docker-compose
     },
 
     watch: {
       usePolling: true,
       interval: 1000,
-      include: ["src/**", "backend/**"], //
+      include: ["src/**", "backend/**"],
     },
   },
 

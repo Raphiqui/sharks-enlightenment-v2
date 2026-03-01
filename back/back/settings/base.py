@@ -55,6 +55,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # WhiteNoise must come immediately after SecurityMiddleware
+    # so it can serve static files before any other middleware runs
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -143,10 +146,12 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     PROJECT_DIR / "static",
-    BASE_DIR / "static" / "dist",  # Add this so collected Vite assets are found
+    # Vite build output — only exists after `npm run build`
+    BASE_DIR / "static" / "dist",
 ]
 
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"  # separate collected dir
+
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "media"
