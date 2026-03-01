@@ -42,7 +42,7 @@ RUN chown wagtail:wagtail /app
 COPY --chown=wagtail:wagtail back/ .
 
 # Copy Vite build output into static/dist/
-COPY --chown=wagtail:wagtail --from=frontend /front/dist/ ./static/dist/
+COPY --chown=wagtail:wagtail --from=frontend ../back/static/dist/ ./static/dist/
 
 USER wagtail
 
