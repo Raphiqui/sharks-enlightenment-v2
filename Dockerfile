@@ -14,11 +14,12 @@ FROM python:3.12-slim-bookworm
 
 RUN useradd wagtail
 
-# Found in the service -> Networking
-EXPOSE $PORT
+ENV PYTHONUNBUFFERED=1
 
-ENV PYTHONUNBUFFERED=1 \
-    PORT=$PORT
+# Railway determines/injects $PORT based on the image's exposed port.
+# Use a concrete default port; Railway will override PORT at runtime if needed.
+ENV PORT=8000
+EXPOSE 8000
 
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
@@ -48,4 +49,4 @@ RUN mkdir -p /app/media /app/static
 
 RUN python manage.py collectstatic --noinput --clear
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
+CMD set -xe; echo "Starting on PORT=${PORT:-8000}"; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
