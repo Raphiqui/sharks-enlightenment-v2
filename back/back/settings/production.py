@@ -75,12 +75,16 @@ STATICFILES_DIRS = [
 
 import dj_database_url
 
+print("Settings are the production ones")
+
 if os.environ.get("DATABASE_URL"):
     DATABASES["default"] = dj_database_url.config(
         default=os.environ.get("DATABASE_URL"),
         conn_max_age=600,
         conn_health_checks=True,
     )
+
+    print(DATABASES["default"])
 
 try:
     from .local import *
