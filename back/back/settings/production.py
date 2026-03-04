@@ -51,7 +51,7 @@ STORAGES = {
     "staticfiles": {
         # CompressedManifestStaticFilesStorage adds cache-busting hashes
         # AND gzip/brotli compression via WhiteNoise
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
