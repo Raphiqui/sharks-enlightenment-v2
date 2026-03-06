@@ -3,6 +3,8 @@ FROM node:20-slim AS frontend
 WORKDIR /front
 COPY front/package*.json ./
 RUN npm ci
+# Force rebuilt
+ARG CACHE_BUST=1
 COPY front/ ./
 RUN npm run build
 # Outputs to /front/../back/static/dist via vite.config.js outDir,
