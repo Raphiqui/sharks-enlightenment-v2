@@ -6,6 +6,7 @@ RUN npm ci
 # Force rebuilt
 ARG CACHE_BUST=1
 COPY front/ ./
+COPY back/ ./back/
 RUN npm run build
 # Outputs to /front/../back/static/dist via vite.config.js outDir,
 # but since we're in a container we need to redirect output.
@@ -38,7 +39,7 @@ RUN chown wagtail:wagtail /app
 COPY --chown=wagtail:wagtail back/ .
 
 # Copy Vite build output into static/dist/
-COPY --chown=wagtail:wagtail --from=frontend ../back/static/dist/ ./static/dist/
+COPY --chown=wagtail:wagtail --from=frontend /front/back/static/dist/ ./static/dist/
 
 USER wagtail
 

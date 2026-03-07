@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "../back/**/*.html";
+@source "./back/**/*.html";
 
 @theme {
   /* Ocean Color Tokens for Tailwind utilities */
@@ -229,4 +229,3 @@ a {
   white-space: nowrap;
   border-width: 0;
 }
-
