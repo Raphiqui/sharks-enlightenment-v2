@@ -3,12 +3,9 @@ FROM node:20-slim AS frontend
 WORKDIR /front
 COPY front/package*.json ./
 RUN npm ci
-# Force rebuilt
-ARG CACHE_BUST=1
+
 COPY front/ ./
 COPY back/ ./back/
-
-RUN find ./back -name "*.html" | head -20
 
 RUN npm run build
 # Outputs to /front/../back/static/dist via vite.config.js outDir,
@@ -50,6 +47,6 @@ USER wagtail
 
 RUN mkdir -p /app/media /app/static
 
-# RUN python manage.py collectstatic --noinput --clear
+RUN python manage.py collectstatic --noinput --clear
 
 CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
