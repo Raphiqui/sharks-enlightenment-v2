@@ -7,6 +7,9 @@ RUN npm ci
 ARG CACHE_BUST=1
 COPY front/ ./
 COPY back/ ./back/
+
+RUN find ./back -name "*.html" | head -20
+
 RUN npm run build
 # Outputs to /front/../back/static/dist via vite.config.js outDir,
 # but since we're in a container we need to redirect output.
