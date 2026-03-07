@@ -15,6 +15,8 @@ RUN npm run build
 # but since we're in a container we need to redirect output.
 # Override outDir at build time to a known location.
 
+RUN find /front/back/static/dist -type f -name "*.css" || echo "No CSS files found!"
+
 # ── Stage 2: Django application ──────────────────────────────────────────────
 FROM python:3.12-slim-bookworm
 
@@ -48,6 +50,6 @@ USER wagtail
 
 RUN mkdir -p /app/media /app/static
 
-RUN python manage.py collectstatic --noinput --clear
+# RUN python manage.py collectstatic --noinput --clear
 
 CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
