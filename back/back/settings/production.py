@@ -55,7 +55,7 @@ cloudinary.config(
 # See https://whitenoise.readthedocs.io/en/stable/django.html
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "storages.backends.cloudinary.CloudinaryStorage",
     },
     "staticfiles": {
         # CompressedManifestStaticFilesStorage adds cache-busting hashes
