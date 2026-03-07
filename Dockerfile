@@ -15,7 +15,7 @@ RUN npm run build
 # but since we're in a container we need to redirect output.
 # Override outDir at build time to a known location.
 
-RUN find /front/back/static/dist -type f -name "*.css" || echo "No CSS files found!"
+RUN find /front -name "*.css" -type f || echo "No CSS files found!"
 
 # ── Stage 2: Django application ──────────────────────────────────────────────
 FROM python:3.12-slim-bookworm
