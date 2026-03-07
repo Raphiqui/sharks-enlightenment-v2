@@ -21,5 +21,3 @@ Docker Setup:
 
 Development: Both back and front containers run
 Production: Only deploy the back/ directory with built assets included
-
-What to do next ?
