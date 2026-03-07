@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cloudinary",
+    "cloudinary_storage",
     "django.contrib.staticfiles",
     "django_vite",
     "wagtail_localize",
@@ -161,7 +163,7 @@ MEDIA_URL = "/media/"
 # See https://docs.djangoproject.com/en/5.2/ref/settings/#std-setting-STORAGES
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
@@ -228,3 +230,10 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 USE_I18N = True
 
 WAGTAIL_I18N_ENABLED = True
+
+# Cloudinary to store images
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", ""),
+    "API_KEY": env("CLOUDINARY_API_KEY", ""),
+    "API_SECRET": env("CLOUDINARY_API_SECRET", ""),
+}
