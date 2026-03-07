@@ -47,12 +47,12 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "cloudinary",
-    "cloudinary_storage",
     "django.contrib.staticfiles",
     "django_vite",
     "wagtail_localize",
     "wagtail_localize.locales",
+    "cloudinary",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -230,10 +230,3 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 USE_I18N = True
 
 WAGTAIL_I18N_ENABLED = True
-
-# Cloudinary to store images
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY", ""),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET", ""),
-}
