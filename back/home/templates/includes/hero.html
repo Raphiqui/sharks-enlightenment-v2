@@ -9,14 +9,15 @@
 >
   {# Background Image #}
   {% if page.hero_image %}
+  {% image page.hero_image width-1140 as hero_img %}
   <div class="absolute inset-0">
     <img
-    src="{% image_url page.hero_image 'width-1140' %}"
+        src="{{ hero_img.url }}"
     srcset="
-        {% image_url page.hero_image 'width-480' %} 480w,
-        {% image_url page.hero_image 'width-768' %} 768w,
-        {% image_url page.hero_image 'width-1140' %} 1140w,
-        {% image_url page.hero_image 'width-1920' %} 1920w
+        {% image page.hero_image width-480 as r %}{{ r.url }} 480w,
+        {% image page.hero_image width-768 as r %}{{ r.url }} 768w,
+        {% image page.hero_image width-1140 as r %}{{ r.url }} 1140w,
+        {% image page.hero_image width-1920 as r %}{{ r.url }} 1920w
     "
     sizes="100vw"
     alt="{{ page.hero_image.alt }}"
