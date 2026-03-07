@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cloudinary_storage",
+    "cloudinary",
     "django_vite",
     "wagtail_localize",
     "wagtail_localize.locales",
-    "cloudinary",
-    "storages",
 ]
 
 MIDDLEWARE = [

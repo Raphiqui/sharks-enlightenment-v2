@@ -41,21 +41,19 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
-import cloudinary
-
 # Cloudinary to store images
-cloudinary.config(
-    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
-    api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
-)
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY", ""),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET", ""),
+}
 
 # ── Static files ──────────────────────────────────────────────────────────────
 # WhiteNoise serves static files directly from Django
 # See https://whitenoise.readthedocs.io/en/stable/django.html
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.cloudinary.CloudinaryStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         # CompressedManifestStaticFilesStorage adds cache-busting hashes
