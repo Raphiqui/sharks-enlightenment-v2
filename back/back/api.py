@@ -6,6 +6,7 @@ from pydantic import model_validator
 
 api = NinjaAPI()
 
+
 class ResponseSchema(Schema):
     response: str
     is_correct: bool
@@ -14,13 +15,13 @@ class ResponseSchema(Schema):
 class QuestionSchema(Schema):
     question: str
     responses: List[ResponseSchema]
+    explanation: str
 
 
 class QuizSchema(Schema):
-    title: str
     questions: List[QuestionSchema]
 
-    @model_validator(mode='before')
+    @model_validator(mode="before")
     @classmethod
     def extract_quiz_data(cls, data):
         if hasattr(data, "quiz"):
@@ -30,21 +31,25 @@ class QuizSchema(Schema):
                 for question_struct in block.value:
 
                     responses = []
-                    
+
                     for resp_block in question_struct["responses"]:
-                        responses.append({
-                            "response": resp_block.value["response"],
-                            "is_correct": resp_block.value["is_correct"]
-                        })
-                    
-                    questions.append({
-                        "question": question_struct["question"],
-                        "responses": responses
-                    })
-            
+                        responses.append(
+                            {
+                                "response": resp_block.value["response"],
+                                "is_correct": resp_block.value["is_correct"],
+                            }
+                        )
+
+                    questions.append(
+                        {
+                            "question": question_struct["question"],
+                            "responses": responses,
+                            "explanation": question_struct["answer"],
+                        }
+                    )
+
             return {
-                "title": data.title,
-                "questions": questions
+                "questions": questions,
             }
         return data
 
