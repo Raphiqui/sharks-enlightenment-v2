@@ -95,9 +95,9 @@ class HomePage(HeroMixin):
     ]
 
 
-class _QuizResponseBlock(StructBlock):
+class _QuizOptionBlock(StructBlock):
 
-    response = CharBlock(help_text=_(""), required=True, label=_("Response"))
+    option = CharBlock(help_text=_(""), required=True, label=_("Option"))
 
     is_correct = BooleanBlock(help_text=_("Is correct"), required=False)
 
@@ -106,9 +106,9 @@ class QuestionList(StructBlock):
 
     question = CharBlock(help_text=_("Question"), required=True, label=_(""))
 
-    responses = StreamBlock(
-        [("response", _QuizResponseBlock())],
-        label=_("Possible answers"),
+    options = StreamBlock(
+        [("option", _QuizOptionBlock())],
+        label=_("Possible options"),
         required=True,
     )
 

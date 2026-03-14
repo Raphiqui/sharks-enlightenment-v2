@@ -1,5 +1,5 @@
 from ninja import NinjaAPI
-from typing import Any, List
+from typing import List
 from home.models import QuizPage
 from ninja import Schema
 from pydantic import model_validator
@@ -7,14 +7,14 @@ from pydantic import model_validator
 api = NinjaAPI()
 
 
-class ResponseSchema(Schema):
-    response: str
+class OptionSchema(Schema):
+    option: str
     is_correct: bool
 
 
 class QuestionSchema(Schema):
     question: str
-    responses: List[ResponseSchema]
+    options: List[OptionSchema]
     explanation: str
 
 
@@ -30,20 +30,20 @@ class QuizSchema(Schema):
 
                 for question_struct in block.value:
 
-                    responses = []
+                    options = []
 
-                    for resp_block in question_struct["responses"]:
-                        responses.append(
+                    for opt_block in question_struct["options"]:
+                        options.append(
                             {
-                                "response": resp_block.value["response"],
-                                "is_correct": resp_block.value["is_correct"],
+                                "option": opt_block.value["option"],
+                                "is_correct": opt_block.value["is_correct"],
                             }
                         )
 
                     questions.append(
                         {
                             "question": question_struct["question"],
-                            "responses": responses,
+                            "options": options,
                             "explanation": question_struct["answer"],
                         }
                     )
