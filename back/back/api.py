@@ -13,6 +13,7 @@ class OptionSchema(Schema):
 
 
 class QuestionSchema(Schema):
+    id: int
     question: str
     options: List[OptionSchema]
     explanation: str
@@ -26,7 +27,7 @@ class QuizSchema(Schema):
     def extract_quiz_data(cls, data):
         if hasattr(data, "quiz"):
             questions = []
-            for block in data.quiz:
+            for index, block in enumerate(data.quiz):
 
                 for question_struct in block.value:
 
@@ -42,6 +43,7 @@ class QuizSchema(Schema):
 
                     questions.append(
                         {
+                            "id": index,
                             "question": question_struct["question"],
                             "options": options,
                             "explanation": question_struct["answer"],
