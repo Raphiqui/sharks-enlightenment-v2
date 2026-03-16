@@ -1,12 +1,12 @@
 import { createApp } from "vue";
 import "./tailwind.css";
 import "./style.scss";
-import Quiz from "./components/Quiz.vue";
+import QuizContainer from "./components/QuizContainer.vue";
 import ScrollIndicator from "./components/ScrollIndicator.vue";
 
-const quizEl = document.querySelector("#quiz");
-if (quizEl) {
-  createApp(Quiz).mount(quizEl);
+const quizContainerEl = document.querySelector("#quiz");
+if (quizContainerEl) {
+  createApp(QuizContainer).mount(quizContainerEl);
 }
 
 const scrollIndicatorEl = document.querySelector("#scroll-indicator");

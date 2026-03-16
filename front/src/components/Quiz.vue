@@ -24,26 +24,22 @@ const Sparkles = {
 }
 // ───────────────────────────────────────────────────────────────────────────
 
+let observer = null
 const error = ref(null)
-const questions = ref([])
 
-onMounted(() => {
+const res = await fetch("/api/quiz")
+
+let questions = await res.json()
+
+questions = questions.questions
+
+onMounted( async () => {
   // Intersection observer
   observer = new IntersectionObserver(
     ([entry]) => { if (entry.isIntersecting) isVisible.value = true },
     { threshold: 0.2 }
   )
   if (sectionRef.value) observer.observe(sectionRef.value)
-
-  // Fetch questions
-  fetch("/api/quiz")
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      return res.json()
-    })
-    .then(json => { questions.value = json })
-    .catch(err => { error.value = err.message })
-    .finally(() => { loading.value = false })
 })
 
 const currentQuestion = ref(0)
@@ -54,21 +50,11 @@ const isComplete = ref(false)
 const isVisible = ref(false)
 const sectionRef = ref(null)
 
-let observer = null
-
-onMounted(() => {
-  observer = new IntersectionObserver(
-    ([entry]) => { if (entry.isIntersecting) isVisible.value = true },
-    { threshold: 0.2 }
-  )
-  if (sectionRef.value) observer.observe(sectionRef.value)
-})
-
 onUnmounted(() => { observer?.disconnect() })
 
-const percentage = computed(() => Math.round((score.value / questions.value.length) * 100))
+const percentage = computed(() => Math.round((score.value / questions.length) * 100))
 
-const progressWidth = computed(() => `${((currentQuestion.value + 1) / questions.value.length) * 100}%`)
+const progressWidth = computed(() => `${((currentQuestion.value + 1) / questions.length) * 100}%`)
 
 const strokeDashoffset = computed(() => 553 - (553 * percentage.value) / 100)
 
@@ -94,7 +80,7 @@ function selectAnswer(index) {
 }
 
 function next() {
-  if (currentQuestion.value < questions.value.length - 1) {
+  if (currentQuestion.value < questions.length - 1) {
     currentQuestion.value++
     selectedAnswer.value = null
     hasAnswered.value = false
@@ -137,9 +123,7 @@ const bubbles = Array.from({ length: 15 }, (_, i) => ({
 </script>
 
 <template>
-  <div v-if="loading" class="sq-loading">Loading…</div>
-  <div v-else-if="error" class="sq-error">{{ error }}</div>
-  <section v-else ref="sectionRef">
+<section ref="sectionRef">
     <div class="sq-container">
       <!-- Card wrapper -->
       <div class="sq-card-wrap" :class="{ 'sq-card-wrap--visible': isVisible }">
