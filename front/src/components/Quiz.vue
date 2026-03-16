@@ -2,26 +2,61 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 // ── Inline SVG icon components (no external dependency) ────────────────────
-const SVG_ATTRS = 'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
-
-const CheckCircle2 = {
-  template: `<svg ${SVG_ATTRS}><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`
+function makeSvgIcon(...children) {
+  return {
+    inheritAttrs: false,
+    setup(_, { attrs }) {
+      return () => h(
+        'svg',
+        {
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 24 24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          ...attrs,
+        },
+        children.map(d =>
+          Array.isArray(d)
+            ? h(d[0], d[1])
+            : h('path', { d })
+        )
+      )
+    }
+  }
 }
-const XCircle = {
-  template: `<svg ${SVG_ATTRS}><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`
-}
-const ChevronRight = {
-  template: `<svg ${SVG_ATTRS}><path d="m9 18 6-6-6-6"/></svg>`
-}
-const RotateCcw = {
-  template: `<svg ${SVG_ATTRS}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`
-}
-const Trophy = {
-  template: `<svg ${SVG_ATTRS}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`
-}
-const Sparkles = {
-  template: `<svg ${SVG_ATTRS}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>`
-}
+ 
+const CheckCircle2 = makeSvgIcon(
+  ['circle', { cx: '12', cy: '12', r: '10' }],
+  'm9 12 2 2 4-4'
+)
+const XCircle = makeSvgIcon(
+  ['circle', { cx: '12', cy: '12', r: '10' }],
+  'm15 9-6 6',
+  'm9 9 6 6'
+)
+const ChevronRight = makeSvgIcon('m9 18 6-6-6-6')
+const RotateCcw = makeSvgIcon(
+  'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8',
+  'M3 3v5h5'
+)
+const Trophy = makeSvgIcon(
+  'M6 9H4.5a2.5 2.5 0 0 1 0-5H6',
+  'M18 9h1.5a2.5 2.5 0 0 0 0-5H18',
+  'M4 22h16',
+  'M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22',
+  'M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22',
+  'M18 2H6v7a6 6 0 0 0 12 0V2Z'
+)
+const Sparkles = makeSvgIcon(
+  'm12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z',
+  'M5 3v4',
+  'M19 17v4',
+  'M3 5h4',
+  'M17 19h4'
+)
 // ───────────────────────────────────────────────────────────────────────────
 
 let observer = null
