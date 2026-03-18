@@ -1,0 +1,51 @@
+[tools]
+python = "3.12"
+node = "22.14"
+
+[tasks.clean-all]
+description = "Stop containers, remove images and all volumes"
+run = """
+echo "Stopping containers..."
+docker compose down
+echo "Removing images..."
+docker rmi sharks-enlightenment-v2-front sharks-enlightenment-v2-back || true
+echo "Removing specific volumes..."
+docker volume rm sharks-enlightenment-v2_media_volume sharks-enlightenment-v2_static_volume || true
+echo "Removing dangling volumes..."
+docker volume prune -f
+"""
+
+[tasks.clean]
+description = "Stop containers, remove images and static volume"
+run = """
+echo "Stopping containers..."
+docker compose down
+echo "Removing images..."
+docker rmi sharks-enlightenment-v2-front sharks-enlightenment-v2-back || true
+echo "Removing specific volumes..."
+docker volume rm sharks-enlightenment-v2_static_volume || true
+echo "Removing dangling volumes..."
+docker volume prune -f
+"""
+
+[tasks.restart]
+description = "Clean and restart containers"
+run = """
+echo "Stopping containers..."
+docker compose down
+echo "Removing images..."
+docker rmi sharks-enlightenment-v2-front sharks-enlightenment-v2-back || true
+echo "Removing specific volumes..."
+docker volume rm sharks-enlightenment-v2_static_volume || true
+echo "Removing dangling volumes..."
+docker volume prune -f
+echo "Restarting..."
+docker compose up
+"""
+
+[tasks.migrate]
+description = "Apply Django migrations inside the running container"
+run = """
+echo "Applying migrations..."
+docker exec -it sharks-enlightenment-v2-back-1 sh -c "./manage.py makemigrations && ./manage.py migrate"
+"""
