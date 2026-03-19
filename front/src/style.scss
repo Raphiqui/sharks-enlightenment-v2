@@ -238,3 +238,81 @@
     margin: 1.5rem 0;
   }
 }
+
+// Anatomy
+.interactive-anatomy {
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+  }
+
+  .interactive-anatomy {
+    text-align: center;
+    margin-top: 30px;
+
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+  }
+
+  .interactive-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+
+    @media (max-width: 768px) {
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+  }
+
+  .foreign-object {
+    height: 362px;
+    width: 100%;
+    & > img {
+      margin: 0 auto;
+    }
+  }
+
+  .ca-interactive-images-container-left-item-blur:hover {
+    stroke-opacity: 1;
+    stroke-width: 1px;
+  }
+
+  .ca-interactive-images-container-left-item-blur {
+    fill: transparent;
+    fill-opacity: 0;
+    stroke: white;
+    stroke-width: 13px;
+    stroke-opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ca-interactive-images-container-left-item-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  .ca-interactive-images-container-left-item:hover
+    .ca-interactive-images-container-left-item-line {
+    stroke-dashoffset: 0;
+  }
+
+  .ca-interactive-images-container-left-item-text {
+    opacity: 0;
+    transition: opacity 0.4s ease 0.3s;
+  }
+
+  .ca-interactive-images-container-left-item:hover
+    .ca-interactive-images-container-left-item-text {
+    opacity: 1;
+  }
+

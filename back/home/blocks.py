@@ -65,3 +65,15 @@ class CardGrid(StructBlock):
         verbose_name_plural = _("Cards Grid")
         template = "blocks/card-grid.html"
         form_classname = "card-grid-block"
+
+
+class Anatomy(StructBlock):
+    title = CharBlock(label=_("Title"), required=True)
+
+    image = ImageChooserBlock(
+        required=True,
+        label=_("Image"),
+    )
+
+    class Meta:
+        template = "blocks/anatomy.html"

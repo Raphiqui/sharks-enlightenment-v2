@@ -10,7 +10,7 @@ from wagtail.blocks import CharBlock, StructBlock, BooleanBlock, StreamBlock, Li
 from wagtail.fields import StreamField
 from wagtail.images import get_image_model_string
 from .snippets import CallToAction
-from .blocks import Heading, SharkThumbnail, CardGrid
+from .blocks import Heading, SharkThumbnail, CardGrid, Anatomy
 
 # International Union for Conservation of Nature
 IUCN_STATUS = [
@@ -85,7 +85,7 @@ class HeroMixin(Page):
 
 class HomePage(HeroMixin):
     body = StreamField(
-        [("heading", Heading()), ("card_grid", CardGrid())],
+        [("heading", Heading()), ("card_grid", CardGrid()), ("anatomy", Anatomy())],
         blank=True,
         null=True,
     )
