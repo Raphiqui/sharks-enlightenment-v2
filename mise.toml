@@ -2,6 +2,12 @@
 python = "3.12"
 node = "22.14"
 
+[tasks.start]
+description = "Run docker compose in detached mode"
+run = """
+docker compose up -d --build
+"""
+
 [tasks.clean-all]
 description = "Stop containers, remove images and all volumes"
 run = """
