@@ -15,7 +15,7 @@ services:
     volumes:
       - ./back:/app  # Mount code for development
       - static_volume:/app/static  # For static files
-      - media_volume:/app/media    # For media/uploads
+      - media_volume:/app/media
 
   front:
     build: front/.
