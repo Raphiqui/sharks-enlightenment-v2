@@ -4,7 +4,7 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from django.utils.translation import gettext_lazy as _
-from wagtail_localize.fields import TranslatableField
+from wagtail_localize.fields import TranslatableField, SynchronizedField
 from wagtail.images import get_image_model_string
 from wagtail.blocks import CharBlock, StructBlock, BooleanBlock, StreamBlock, ListBlock
 from wagtail.fields import StreamField
@@ -77,6 +77,15 @@ class HeroMixin(Page):
             ],
             heading="Hero section",
         ),
+    ]
+
+    override_translatable_fields = [
+        SynchronizedField("hero_image"),
+        SynchronizedField("hero_cta"),
+        TranslatableField("hero_bubble_text"),
+        TranslatableField("hero_title_white"),
+        TranslatableField("hero_title_blue"),
+        TranslatableField("hero_subtitle"),
     ]
 
     class Meta:
