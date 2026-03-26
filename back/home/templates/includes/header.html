@@ -3,6 +3,7 @@
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
   {% get_site_root as site_root %}
+  {% get_menu_items as menu_items %}
   <nav class="w-full max-w-7xl mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
 
@@ -31,8 +32,6 @@
 
       {# Desktop Navigation #}
       <div class="hidden md:flex items-center gap-8">
-        {% get_menu_items as menu_items %}
-
         {% for menuitem in menu_items %}
         <a href="{% pageurl menuitem %}"
           class="relative text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 group">
@@ -55,7 +54,7 @@
     {# Mobile Navigation #}
     <div id="mobile-menu" class="md:hidden overflow-hidden transition-all duration-300 max-h-0 py-0">
       <div class="flex flex-col gap-4 pt-4">
-        {% for menuitem in site_root.get_children.live.in_menu %}
+        {% for menuitem in menu_items %}
         <a href="{% pageurl menuitem %}"
           class="text-foreground/80 hover:text-foreground transition-colors duration-200 py-2">
           {{ menuitem.title }}
