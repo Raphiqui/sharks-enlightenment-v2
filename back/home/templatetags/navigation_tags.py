@@ -19,11 +19,15 @@ def get_menu_items(context):
     """
 
     root_page = Site.find_for_request(context["request"]).root_page
-    active_language_code = Locale.get_active()
-    menu_items = []
+    active_locale = Locale.get_active()
 
-    for child_page in root_page.get_children():
-        if child_page.live:
-            menu_items.append(child_page.get_translation(active_language_code))
-
-    return menu_items
+    return (
+        root_page.get_children()
+        .filter(
+            live=True,
+            show_in_menus=True,
+            locale=active_locale,
+        )
+        .specific()
+        .select_related("locale")
+    )
