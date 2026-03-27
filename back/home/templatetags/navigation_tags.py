@@ -20,6 +20,9 @@ def get_menu_items(context):
 
     root_page = Site.find_for_request(context["request"]).root_page
     active_locale = Locale.get_active()
+    root_page = root_page.get_translation(active_locale)
+
+    print(root_page.__dict__)
 
     return (
         root_page.get_children()
