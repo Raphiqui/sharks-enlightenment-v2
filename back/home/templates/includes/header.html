@@ -74,13 +74,11 @@
         {% for translation in page.get_translations.live %}
           {% get_language_info for translation.locale.language_code as lang %}
           <a href="{% pageurl translation %}"
-            class="relative text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 group"
+            class="text-foreground/80 hover:text-foreground transition-colors duration-200 py-2"
             rel="alternate" 
             hreflang="{{ lang.code }}"
             {% if translation.locale == page.locale %}class="active"{% endif %}>
             {{ lang.code }}
-            <span
-              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
           </a>
         {% endfor %}
       </div>
