@@ -79,7 +79,7 @@ class HeroMixin(Page):
         ),
     ]
 
-    override_translatable_fields = [
+    translatable_fields = [
         SynchronizedField("hero_image"),
         SynchronizedField("hero_cta"),
         TranslatableField("hero_bubble_text"),
@@ -142,7 +142,7 @@ class SharksPage(HeroMixin):
         FieldPanel("sharks"),
     ]
 
-    translatable_fields = [TranslatableField("sharks")]
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("sharks")]
 
 
 class SharkPage(Page):
@@ -184,7 +184,7 @@ class SharkPage(Page):
         FieldPanel("description"),
     ]
 
-    translatable_fields = [
+    translatable_fields = HeroMixin.translatable_fields + [
         TranslatableField("name"),
         TranslatableField("size"),
         TranslatableField("description"),
@@ -223,4 +223,4 @@ class AboutPage(HeroMixin):
 
     content_panels = Page.content_panels + [FieldPanel("body")]
 
-    translatable_fields = [TranslatableField("body")]
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body")]
