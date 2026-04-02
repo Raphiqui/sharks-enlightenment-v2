@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-05 12:00+0000\n"
+"PO-Revision-Date: 2026-05-05 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Header
+msgid "Sharks"
+msgstr "Tiburones"
+
+msgid "Enlightenment"
+msgstr "Iluminación"
+
+# Footer
+msgid "Discover the incredible world of sharks and marine life. Learn about different species, their habitats, and why they matter."
+msgstr "Descubre el increíble mundo de los tiburones y la vida marina. Aprende sobre diferentes especies, sus hábitats y por qué son importantes."
+
+msgid "Explore"
+msgstr "Explorar"
+
+msgid "Sharks Enlightenment. All rights reserved."
+msgstr "Tiburones Iluminación. Todos los derechos reservados."
+
+# Shark page
+msgid "Back to Sharks"
+msgstr "Volver a Tiburones"
+
+msgid "Size (in meters)"
+msgstr "Tamaño (en metros)"
+
+msgid "Conservation Status"
+msgstr "Estado de Conservación"
+
+msgid "About this Species"
+msgstr "Sobre esta Especie"
+
+# Sharks page
+msgid "Meet the Residents"
+msgstr "Conoce a los Residentes"
+
+msgid "Magnificent Species"
+msgstr "Especies Magníficas"
+
+msgid "Discover the incredible creatures that call the ocean home."
+msgstr "Descubre las increíbles criaturas que llaman al océan su hogar."
+
+# About page
+msgid "About Me"
+msgstr "Sobre Mí"
+
+# Search
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "No results found"
+msgstr "No se encontraron resultados"
+
+# Thumbnail
+msgid "Learn More"
+msgstr "Saber Más"
+
+msgid "Learn more about %(name)s"
+msgstr "Saber más sobre %(name)s"
+
+# Model admin labels
+msgid "extinct"
+msgstr "extinto"
+
+msgid "extinct in the wild"
+msgstr "extinto en estado salvaje"
+
+msgid "critical endangered"
+msgstr "en peligro crítico"
+
+msgid "endangered"
+msgstr "en peligro"
+
+msgid "vulnerable"
+msgstr "vulnerable"
+
+msgid "near threatened"
+msgstr "casi amenazado"
+
+msgid "least concern"
+msgstr "preocupación menor"
+
+msgid "Image of the hero"
+msgstr "Imagen del héroe"
+
+msgid "Image"
+msgstr "Imagen"
+
+msgid "Text wrapped into a blue bubble"
+msgstr "Texto envuelto en una burbuja azul"
+
+msgid "Title of the page, white part"
+msgstr "Título de la página, parte blanca"
+
+msgid "Title of the page, blue part"
+msgstr "Título de la página, parte azul"
+
+msgid "Subtitle of the page"
+msgstr "Subtítulo de la página"
+
+msgid "Call to action button for the hero"
+msgstr "Botón de llamada a la acción para el héroe"
+
+msgid "CTA"
+msgstr "CTA"
+
+msgid "Name of the shark"
+msgstr "Nombre del tiburón"
+
+msgid "Latin name"
+msgstr "Nombre latino"
+
+msgid "Image of the shark"
+msgstr "Imagen del tiburón"
+
+msgid "Size"
+msgstr "Tamaño"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Body"
+msgstr "Cuerpo"
+
+msgid "Label"
+msgstr "Etiqueta"
+
+msgid "Internal page this CTA links to"
+msgstr "Página interna a la que enlaza este CTA"
+
+msgid "Page"
+msgstr "Página"
+
+msgid "External URL"
+msgstr "URL externa"
+
+msgid "Use this if linking to an external site instead of a page"
+msgstr "Use esto si enlaza a un sitio externo en lugar de una página"
+
+msgid "Call to Action"
+msgstr "Llamada a la Acción"
+
+msgid "Calls to Action"
+msgstr "Llamadas a la Acción"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Subtitle"
+msgstr "Subtítulo"
+
+msgid "Eyebrow"
+msgstr "Ceja"
+
+msgid "Small blue text above the main title"
+msgstr "Pequeño texto azul encima del título principal"
+
+msgid "Section Header"
+msgstr "Encabezado de Sección"
+
+msgid "Section Headers"
+msgstr "Encabezados de Sección"
+
+msgid "Option"
+msgstr "Opción"
+
+msgid "Is correct"
+msgstr "Es correcto"
+
+msgid "Question"
+msgstr "Pregunta"
+
+msgid "Possible options"
+msgstr "Opciones posibles"
+
+msgid "Correct answer"
+msgstr "Respuesta correcta"
