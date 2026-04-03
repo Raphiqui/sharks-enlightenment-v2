@@ -3,8 +3,7 @@ import os
 
 DEBUG = False
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
+SECRET_KEY = os.environ["SECRET_KEY"]
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -39,8 +38,9 @@ CSRF_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
-
+ALLOWED_HOSTS = [
+    h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()
+]
 # Cloudinary to store images
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
