@@ -3,6 +3,7 @@ from typing import List
 from home.models import QuizPage
 from ninja import Schema
 from pydantic import model_validator
+from ninja.errors import HttpError
 
 api = NinjaAPI()
 
@@ -59,4 +60,8 @@ class QuizSchema(Schema):
 @api.get("/quiz", response=QuizSchema)
 def get_quiz(request):
     quiz = QuizPage.objects.first()
+
+    if not quiz:
+        raise HttpError(404, "No Quiz page found")
+
     return quiz
