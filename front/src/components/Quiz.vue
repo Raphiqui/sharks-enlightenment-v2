@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, h } from 'vue'
 
 // ── Inline SVG icon components (no external dependency) ────────────────────
 function makeSvgIcon(...children) {
