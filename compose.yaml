@@ -27,6 +27,9 @@ services:
     build: front/.
     ports: 
       - "8080:5173"
+    depends_on:
+      back:
+        condition: service_healthy
     volumes:
       - ./front:/app
       - /app/node_modules
