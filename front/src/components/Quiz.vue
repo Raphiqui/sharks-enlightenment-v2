@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, h } from 'vue'
+import { t } from '../i18n.js'
 
 // ── Inline SVG icon components (no external dependency) ────────────────────
 function makeSvgIcon(...children) {
@@ -94,10 +95,10 @@ const progressWidth = computed(() => `${((currentQuestion.value + 1) / questions
 const strokeDashoffset = computed(() => 553 - (553 * percentage.value) / 100)
 
 const resultMessage = computed(() => {
-  if (percentage.value >= 80) return "Amazing! You're a true shark expert!"
-  if (percentage.value >= 60) return "Great job! You know your sharks well!"
-  if (percentage.value >= 40) return "Not bad! Keep learning about these fascinating creatures."
-  return "Time to look around and learn more!"
+  if (percentage.value >= 80) return t('amazing')
+  if (percentage.value >= 60) return t('great')
+  if (percentage.value >= 40) return t('notBad')
+  return t('keepLearning')
 })
 
 const trophyGradient = computed(() => {
@@ -182,8 +183,8 @@ const bubbles = Array.from({ length: 15 }, (_, i) => ({
               <!-- Progress -->
               <div class="sq-progress">
                 <div class="sq-progress-labels">
-                  <span>Question {{ currentQuestion + 1 }} of {{ questions.length }}</span>
-                  <span>{{ score }} correct</span>
+                  <span>{{ t('questionOf', { current: currentQuestion + 1, total: questions.length }) }}</span>
+                  <span>{{ t('correctCount', { count: score }) }}</span>
                 </div>
                 <div class="sq-progress-track">
                   <div class="sq-progress-fill" :style="{ width: progressWidth }" />
@@ -244,10 +245,10 @@ const bubbles = Array.from({ length: 15 }, (_, i) => ({
                 <div v-if="hasAnswered" class="sq-next-row">
                   <button class="sq-btn sq-btn--next" @click="next">
                     <template v-if="currentQuestion < questions.length - 1">
-                      Next Question <ChevronRight class="sq-btn-icon" />
+                      {{ t('nextQuestion') }} <ChevronRight class="sq-btn-icon" />
                     </template>
                     <template v-else>
-                      See Results <Trophy class="sq-btn-icon" />
+                      {{ t('seeResults') }} <Trophy class="sq-btn-icon" />
                     </template>
                   </button>
                 </div>
@@ -260,7 +261,7 @@ const bubbles = Array.from({ length: 15 }, (_, i) => ({
                 <Trophy class="sq-trophy" />
               </div>
 
-              <h3 class="sq-result-title">Quiz Complete!</h3>
+              <h3 class="sq-result-title">{{ t('quizComplete') }}</h3>
 
               <div class="sq-score-circle">
                 <svg class="sq-score-svg" viewBox="0 0 192 192">
@@ -284,14 +285,14 @@ const bubbles = Array.from({ length: 15 }, (_, i) => ({
                 </svg>
                 <div class="sq-score-content">
                   <span class="sq-score-pct">{{ percentage }}%</span>
-                  <span class="sq-score-sub">{{ score }} of {{ questions.length }} correct</span>
+                  <span class="sq-score-sub">{{ t('ofCorrect', { score, total: questions.length }) }}</span>
                 </div>
               </div>
 
               <p class="sq-result-msg">{{ resultMessage }}</p>
 
               <button class="sq-btn sq-btn--restart" @click="restart">
-                <RotateCcw class="sq-btn-icon sq-btn-icon--left" /> Try Again
+                <RotateCcw class="sq-btn-icon sq-btn-icon--left" /> {{ t('tryAgain') }}
               </button>
             </div>
           </Transition>
