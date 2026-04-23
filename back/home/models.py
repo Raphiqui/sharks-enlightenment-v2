@@ -20,7 +20,7 @@ IUCN_STATUS = [
     ("endangered", _("endangered")),
     ("vulnerable", _("vulnerable")),
     ("near threatened", _("near threatened")),
-    ("least concern", ("least concern")),
+    ("least concern", _("least concern")),
 ]
 
 
