@@ -2,7 +2,7 @@
 {% load django_vite %}
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="{{ LANGUAGE_CODE }}" class="dark">
 
 <head>
     <meta charset="utf-8" />
@@ -44,6 +44,7 @@
     {% endblock %}
 
     {% vite_hmr_client %}
+    <script>window.DJANGO_LANGUAGE = "{{ LANGUAGE_CODE }}";</script>
     {% vite_asset "src/main.js" %}
 </head>
 
