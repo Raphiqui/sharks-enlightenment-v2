@@ -20,10 +20,10 @@ msgstr ""
 
 # Header
 msgid "Sharks"
-msgstr "Requins"
+msgstr "Sharks"
 
 msgid "Enlightenment"
-msgstr "Lumière"
+msgstr "Enlightenment"
 
 # Footer
 msgid "Discover the incredible world of sharks and marine life. Learn about different species, their habitats, and why they matter."
@@ -33,7 +33,7 @@ msgid "Explore"
 msgstr "Explorer"
 
 msgid "Sharks Enlightenment. All rights reserved."
-msgstr "Requins Lumière. Tous droits réservés."
+msgstr "Sharks Enlightenment. Tous droits réservés."
 
 # Shark page
 msgid "Back to Sharks"
