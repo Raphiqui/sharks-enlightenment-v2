@@ -46,3 +46,24 @@ run = """
 echo "Applying migrations..."
 docker exec -it sharks-enlightenment-v2-back-1 sh -c "./manage.py makemigrations && ./manage.py migrate"
 """
+
+[tasks.backup]
+description = "Backup database to a timestamped JSON file via Django dumpdata"
+run = """
+if docker ps | grep -q "sharks-enlightenment-v2-back"; then
+  echo "Backend already running."
+elif docker ps -a | grep "sharks-enlightenment-v2-back" | grep -q "Exited"; then
+  echo "Backend container exists but stopped. Starting services"
+  docker compose up -d postgres back
+  sleep 3
+else
+  echo "No backend container found. Starting services..."
+  docker compose up -d postgres back
+  sleep 3
+fi
+
+mkdir -p back/backups
+filename="backup_$(date +%Y%m%d_%H%M%S).json"
+docker exec sharks-enlightenment-v2-back-1 sh -c "./manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission --exclude=wagtailcore.GroupCollectionPermission --exclude=sessions --exclude=admin.LogEntry --indent 2" > "back/backups/$filename"
+echo "Backup saved to back/backups/$filename"
+"""
