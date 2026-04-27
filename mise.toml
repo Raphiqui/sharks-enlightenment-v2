@@ -67,3 +67,19 @@ filename="backup_$(date +%Y%m%d_%H%M%S).json"
 docker exec sharks-enlightenment-v2-back-1 sh -c "./manage.py dumpdata --exclude=contenttypes --exclude=auth.Permission --exclude=wagtailcore.GroupCollectionPermission --exclude=sessions --exclude=admin.LogEntry --indent 2" > "back/backups/$filename"
 echo "Backup saved to back/backups/$filename"
 """
+
+
+[tasks.restore]
+description = "Restore database from a backup file. Usage: BACKUP_FILE=filename mise run restore"
+run = """
+echo "Available backups:"
+ls -1 back/backups/ 2>/dev/null || echo "(no backups found)"
+echo "---"
+if [ -z "$BACKUP_FILE" ]; then
+  echo "Usage: BACKUP_FILE=<filename> mise run restore"
+  echo "Example: BACKUP_FILE=backup_20250101_120000.json mise run restore"
+  exit 1
+fi
+docker exec -i sharks-enlightenment-v2-back-1 sh -c "./manage.py loaddata /app/backups/$BACKUP_FILE"
+echo "Restore completed from $BACKUP_FILE"
+"""
