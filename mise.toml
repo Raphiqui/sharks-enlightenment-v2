@@ -68,7 +68,6 @@ docker exec sharks-enlightenment-v2-back-1 sh -c "./manage.py dumpdata --exclude
 echo "Backup saved to back/backups/$filename"
 """
 
-
 [tasks.restore]
 description = "Restore database from a backup file. Usage: BACKUP_FILE=filename mise run restore"
 run = """
@@ -82,4 +81,10 @@ if [ -z "$BACKUP_FILE" ]; then
 fi
 docker exec -i sharks-enlightenment-v2-back-1 sh -c "./manage.py loaddata /app/backups/$BACKUP_FILE"
 echo "Restore completed from $BACKUP_FILE"
+"""
+
+[tasks.list-backups]
+description = "List available database backups"
+run = """
+ls -lh back/backups/ 2>/dev/null
 """
