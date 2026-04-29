@@ -86,5 +86,5 @@ echo "Restore completed from $BACKUP_FILE"
 [tasks.list-backups]
 description = "List available database backups"
 run = """
-ls -lh back/backups/ 2>/dev/null
+ls -lh back/backups/ 2>/dev/null || echo "No backups found"
 """
