@@ -175,6 +175,12 @@ class SharkPage(Page):
 
     description = RichTextField(_("Description"), blank=True)
 
+    distribution_map = models.TextField(
+        _("Distribution map SVG"),
+        blank=True,
+        help_text=_("SVG code for the shark distribution map"),
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel("name"),
         FieldPanel("latin_name"),
@@ -182,6 +188,7 @@ class SharkPage(Page):
         FieldPanel("size"),
         FieldPanel("conservation_status"),
         FieldPanel("description"),
+        FieldPanel("distribution_map"),
     ]
 
     translatable_fields = HeroMixin.translatable_fields + [

@@ -69,3 +69,27 @@ class SectionHeader(models.Model):
     class Meta:
         verbose_name = _("Section Header")
         verbose_name_plural = _("Section Headers")
+
+
+@register_snippet
+class Footer(models.Model):
+    description = models.TextField(
+        _("Description"),
+        blank=True,
+        help_text=_("Brand description paragraph in the footer"),
+    )
+    copyright_text = models.CharField(
+        _("Copyright text"), max_length=255, blank=True
+    )
+
+    panels = [
+        FieldPanel("description"),
+        FieldPanel("copyright_text"),
+    ]
+
+    def __str__(self):
+        return _("Footer Settings")
+
+    class Meta:
+        verbose_name = _("Footer")
+        verbose_name_plural = _("Footer")
