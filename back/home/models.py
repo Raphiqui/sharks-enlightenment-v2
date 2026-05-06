@@ -213,6 +213,8 @@ class QuizPage(HeroMixin):
         FieldPanel("quiz"),
     ]
 
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("title")]
+
 
 class AboutPage(HeroMixin):
 
