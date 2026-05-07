@@ -223,4 +223,4 @@ class AboutPage(HeroMixin):
 
     content_panels = Page.content_panels + [FieldPanel("body")]
 
-    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body")]
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body"), TranslatableField("title")]
