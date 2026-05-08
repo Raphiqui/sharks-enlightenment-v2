@@ -1,5 +1,6 @@
 from .base import *
 import os
+import dj_database_url
 
 DEBUG = False
 
@@ -80,7 +81,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "static" / "dist",
 ]
 
-import dj_database_url
 
 if os.environ.get("DATABASE_URL"):
     DATABASES["default"] = dj_database_url.config(
