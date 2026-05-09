@@ -83,10 +83,10 @@ docker exec -i sharks-enlightenment-v2-back-1 sh -c "./manage.py loaddata /app/b
 echo "Restore completed from $BACKUP_FILE"
 """
 
-[tasks.shell]
+[tasks.back-shell]
 description = "Open a shell inside the running backend container"
 run = """
-docker exec -it sharks-enlightenment-v2-back-1 sh
+docker exec -it sharks-enlightenment-v2-back-1 /bin/bash
 """
 
 [tasks.list-backups]
