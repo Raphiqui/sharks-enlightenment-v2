@@ -100,3 +100,9 @@ description = "Taks to merger main into master and push"
 run = """
 git checkout master && git merge main && git push && git checkout main
 """
+
+[tasks.lint]
+description = "Auto-fix lint issues with ruff"
+run = """
+docker compose run --rm --no-deps back ruff check --fix . && docker compose run --rm --no-deps back ruff format .
+"""
