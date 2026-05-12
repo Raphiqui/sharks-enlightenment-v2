@@ -1,4 +1,5 @@
 from django import template
+
 from home.snippets import Footer as FooterModel
 
 register = template.Library()

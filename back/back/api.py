@@ -1,9 +1,9 @@
-from ninja import NinjaAPI
-from typing import List
-from home.models import QuizPage
-from ninja import Schema
-from pydantic import model_validator
+
+from ninja import NinjaAPI, Schema
 from ninja.errors import HttpError
+from pydantic import model_validator
+
+from home.models import QuizPage
 
 api = NinjaAPI()
 
@@ -16,12 +16,12 @@ class OptionSchema(Schema):
 class QuestionSchema(Schema):
     id: int
     question: str
-    options: List[OptionSchema]
+    options: list[OptionSchema]
     explanation: str
 
 
 class QuizSchema(Schema):
-    questions: List[QuestionSchema]
+    questions: list[QuestionSchema]
 
     @model_validator(mode="before")
     @classmethod

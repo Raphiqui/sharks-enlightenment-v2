@@ -1,16 +1,14 @@
 from django.db import models
-
-from wagtail.models import Page
-from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from django.utils.translation import gettext_lazy as _
-from wagtail_localize.fields import TranslatableField, SynchronizedField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.blocks import BooleanBlock, CharBlock, ListBlock, StreamBlock, StructBlock
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
-from wagtail.blocks import CharBlock, StructBlock, BooleanBlock, StreamBlock, ListBlock
-from wagtail.fields import StreamField
-from wagtail.images import get_image_model_string
+from wagtail.models import Page
+from wagtail_localize.fields import SynchronizedField, TranslatableField
+
+from .blocks import Anatomy, CardGrid, Heading, SharkThumbnail
 from .snippets import CallToAction
-from .blocks import Heading, SharkThumbnail, CardGrid, Anatomy
 
 # International Union for Conservation of Nature
 IUCN_STATUS = [

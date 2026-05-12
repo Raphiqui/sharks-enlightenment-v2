@@ -1,6 +1,6 @@
-from wagtail.images.blocks import ImageChooserBlock
 from django.utils.translation import gettext_lazy as _
-from wagtail.blocks import CharBlock, StructBlock, PageChooserBlock, StreamBlock
+from wagtail.blocks import CharBlock, PageChooserBlock, StreamBlock, StructBlock
+from wagtail.images.blocks import ImageChooserBlock
 
 
 class SharkThumbnail(StructBlock):

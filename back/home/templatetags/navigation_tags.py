@@ -1,5 +1,5 @@
 from django import template
-from wagtail.models import Site, Locale
+from wagtail.models import Locale, Site
 
 register = template.Library()
 
