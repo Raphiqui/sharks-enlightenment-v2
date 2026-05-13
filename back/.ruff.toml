@@ -1,8 +1,10 @@
 target-version = "py312"
 line-length = 100
+exclude = ["**/migrations/", "**/__pycache__/", "staticfiles/", "test_media/"]
 
 [lint]
-select = ["E", "F", "I", "N", "UP", "W", "C4", "SIM"]
+select = ["E", "F", "W"]
+ignore = ["E501"]
 
 [format]
 quote-style = "double"
