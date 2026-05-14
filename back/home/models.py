@@ -103,14 +103,12 @@ class HomePage(HeroMixin):
 
 
 class _QuizOptionBlock(StructBlock):
-
     option = CharBlock(help_text=_(""), required=True, label=_("Option"))
 
     is_correct = BooleanBlock(help_text=_("Is correct"), required=False)
 
 
 class QuestionList(StructBlock):
-
     question = CharBlock(help_text=_("Question"), required=True, label=_(""))
 
     options = StreamBlock(
@@ -144,7 +142,6 @@ class SharksPage(HeroMixin):
 
 
 class SharkPage(Page):
-
     parent_page_types = ["home.SharksPage"]
     subpage_types = []
 
@@ -197,7 +194,6 @@ class SharkPage(Page):
 
 
 class QuizPage(HeroMixin):
-
     parent_page_types = ["home.HomePage"]
     subpage_types = []
 
@@ -222,7 +218,6 @@ class QuizPage(HeroMixin):
 
 
 class AboutPage(HeroMixin):
-
     parent_page_types = ["home.HomePage"]
     subpage_types = []
 
@@ -230,4 +225,7 @@ class AboutPage(HeroMixin):
 
     content_panels = Page.content_panels + [FieldPanel("body")]
 
-    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body"), TranslatableField("title")]
+    translatable_fields = HeroMixin.translatable_fields + [
+        TranslatableField("body"),
+        TranslatableField("title"),
+    ]

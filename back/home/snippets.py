@@ -78,9 +78,7 @@ class Footer(models.Model):
         blank=True,
         help_text=_("Brand description paragraph in the footer"),
     )
-    copyright_text = models.CharField(
-        _("Copyright text"), max_length=255, blank=True
-    )
+    copyright_text = models.CharField(_("Copyright text"), max_length=255, blank=True)
 
     panels = [
         FieldPanel("description"),

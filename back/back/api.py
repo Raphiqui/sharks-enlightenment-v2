@@ -1,4 +1,3 @@
-
 from ninja import NinjaAPI, Schema
 from ninja.errors import HttpError
 from pydantic import model_validator
@@ -29,9 +28,7 @@ class QuizSchema(Schema):
         if hasattr(data, "quiz"):
             questions = []
             for index, block in enumerate(data.quiz):
-
                 for question_struct in block.value:
-
                     options = []
 
                     for opt_block in question_struct["options"]:
