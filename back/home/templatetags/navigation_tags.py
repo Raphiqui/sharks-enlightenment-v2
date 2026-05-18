@@ -22,8 +22,6 @@ def get_menu_items(context):
     active_locale = Locale.get_active()
     root_page = root_page.get_translation(active_locale)
 
-    print(root_page.__dict__)
-
     return (
         root_page.get_children()
         .filter(
