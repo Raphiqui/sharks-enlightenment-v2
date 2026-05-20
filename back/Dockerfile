@@ -26,7 +26,6 @@ RUN chown wagtail:wagtail /app
 RUN mkdir -p /app/media /app/static && \
     chmod -R 777 /app/media /app/static
 
-# Copy Django source from back/
 COPY --chown=wagtail:wagtail back/ .
 
 USER wagtail
