@@ -106,3 +106,9 @@ description = "Auto-fix lint issues with ruff"
 run = """
 docker compose run --rm --no-deps back ruff check --fix . && docker compose run --rm --no-deps back ruff format .
 """
+
+[tasks.test-front]
+description = "Run Vitest frontend tests"
+run = """
+docker compose run --rm --no-deps front npm run test
+"""
