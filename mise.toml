@@ -107,6 +107,14 @@ run = """
 docker compose run --rm --no-deps back ruff check --fix . && docker compose run --rm --no-deps back ruff format .
 """
 
+[tasks.test-back]
+description = "Run Django tests with SQLite"
+run = """
+docker compose run --rm --no-deps \
+  -e DJANGO_SETTINGS_MODULE=back.settings.test \
+  back python manage.py test
+"""
+
 [tasks.test-front]
 description = "Run Vitest frontend tests"
 run = """
