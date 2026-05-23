@@ -120,3 +120,15 @@ description = "Run Vitest frontend tests"
 run = """
 docker compose run --rm --no-deps front npm run test
 """
+
+[tasks.test]
+description = "Run all tests (backend + frontend)"
+run = """
+echo "=== Backend tests ==="
+mise run test-back || exit 1
+echo ""
+echo "=== Frontend tests ==="
+mise run test-front || exit 1
+echo ""
+echo "All tests passed!"
+"""
