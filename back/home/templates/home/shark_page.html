@@ -22,7 +22,7 @@
 
     {# Hero Image #}
     <div class="relative overflow-hidden rounded-2xl mb-12">
-      {% image page.image fill-1140x500 as img %}
+      {% image page.image width-1140 as img %}
       <img src="{{ img.url }}" srcset="
                     {% image_url page.image 'fill-480x210' %} 480w,
                     {% image_url page.image 'fill-768x337' %} 768w,
