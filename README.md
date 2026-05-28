@@ -45,3 +45,7 @@ cd back && python manage.py makemessages -l fr -l es
 ### Vue Component Translations
 
 Vue components use a custom `front/src/i18n.js` module. To add or modify translations, edit the locale objects in that file. The language is automatically detected from Django via `window.DJANGO_LANGUAGE`.
+
+### Railway
+
+If somehow the changes are not reflected, try to change the `CACHE_BUST` variable to something else.
