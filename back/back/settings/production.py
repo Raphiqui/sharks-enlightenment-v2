@@ -2,7 +2,7 @@ import os
 
 import dj_database_url
 
-from .base import *
+from .base import *  # noqa
 
 DEBUG = False
 
@@ -41,9 +41,7 @@ CSRF_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-ALLOWED_HOSTS = [
-    h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()
-]
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()]
 # Cloudinary to store images
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
@@ -71,7 +69,7 @@ STORAGES = {
 DJANGO_VITE = {
     "default": {
         "dev_mode": False,
-        "manifest_path": BASE_DIR / "static" / "dist" / "manifest.json",
+        "manifest_path": BASE_DIR / "static" / "dist" / "manifest.json",  # noqa
     }
 }
 
@@ -80,18 +78,18 @@ DJANGO_VITE = {
 # will pick it up, and the dir must exist before collectstatic runs.
 # We keep only PROJECT_DIR/static (Django app static files).
 STATICFILES_DIRS = [
-    BASE_DIR / "static" / "dist",
+    BASE_DIR / "static" / "dist",  # noqa
 ]
 
 
 if os.environ.get("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.config(
+    DATABASES["default"] = dj_database_url.config(  # noqa
         default=os.environ.get("DATABASE_URL"),
         conn_max_age=600,
         conn_health_checks=True,
     )
 
 try:
-    from .local import *
+    from .local import *  # noqa
 except ImportError:
     pass
