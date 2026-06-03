@@ -23,3 +23,18 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "style: auto-fix ruff linting issues"
+  test-front:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: front/package-lock.json
+      - run: npm install
+      - run: npm run test
+      - run: npm run build
