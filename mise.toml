@@ -1,6 +1,7 @@
 [tools]
 python = "3.12"
 node = "22.14"
+npm = "latest"
 
 [tasks.start]
 description = "Run docker compose in detached mode"
