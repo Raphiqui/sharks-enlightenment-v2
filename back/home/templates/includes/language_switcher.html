@@ -1,0 +1,14 @@
+{% load wagtailcore_tags i18n %}
+{# Segmented language switcher. Expects `language_links` from get_language_links. #}
+<div class="inline-flex items-center rounded-full border border-border/60 bg-background/40 p-1"
+  role="group" aria-label="{% trans 'Language' %}">
+  {% for link in language_links %}
+    {% get_language_info for link.code as lang %}
+    <a href="{% pageurl link.page %}"
+      class="rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wider transition-colors duration-200 {% if link.is_current %}bg-primary text-primary-foreground{% else %}text-foreground/70 hover:text-foreground hover:bg-foreground/10{% endif %}"
+      rel="alternate" hreflang="{{ lang.code }}" lang="{{ lang.code }}" title="{{ lang.name_local|capfirst }}"
+      {% if link.is_current %}aria-current="true"{% endif %}>
+      {{ lang.code }}
+    </a>
+  {% endfor %}
+</div>
