@@ -261,23 +261,14 @@
     margin: auto;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-
-    @media (max-width: 768px) {
-      overflow-y: hidden;
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-    }
   }
 
-  .foreign-object {
-    height: 362px;
+  .responsive-svg {
+    display: block;
     width: 100%;
-    & > img {
-      margin: 0 auto;
-    }
+    max-width: 760px;
+    height: auto;
+    margin: 0 auto;
   }
 
   .ca-interactive-images-container-left-item-blur:hover {
@@ -316,3 +307,15 @@
     opacity: 1;
   }
 
+  // No hover on touch screens and little room on small ones: show every label.
+  @media (hover: none), (max-width: 768px) {
+    .ca-interactive-images-container-left-item-line {
+      stroke-dashoffset: 0;
+      stroke-width: 1.5;
+    }
+
+    .ca-interactive-images-container-left-item-text {
+      opacity: 1;
+      font-size: 26px;
+    }
+  }
