@@ -42,6 +42,11 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()]
+
+# Behind the hosting proxy, REMOTE_ADDR is the proxy for every visitor: read the
+# client IP from X-Forwarded-For, trusting only the proxies in front of the app.
+AXES_IPWARE_META_PRECEDENCE_ORDER = ("HTTP_X_FORWARDED_FOR", "REMOTE_ADDR")
+AXES_IPWARE_PROXY_COUNT = int(os.environ.get("PROXY_COUNT", "1"))
 # Cloudinary to store images
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
