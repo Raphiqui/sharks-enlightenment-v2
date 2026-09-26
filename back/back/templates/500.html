@@ -1,13 +1,152 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% comment %}
+  Standalone on purpose: Django renders this without a page context, and the
+  error may come from the database or the asset pipeline. No base template,
+  no Vite, no queries: only inline styles and the inline logo.
+{% endcomment %}
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8" />
-        <title>Internal server error</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <body>
-        <h1>Internal server error</h1>
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>{% trans "Something went wrong" %} - Sharks Enlightenment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0a1628" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: oklch(0.08 0.025 235);
+      --foreground: oklch(0.97 0.01 210);
+      --muted-foreground: oklch(0.6 0.03 210);
+      --primary: oklch(0.7 0.16 195);
+      --primary-foreground: oklch(0.1 0.02 230);
+      --border: oklch(0.22 0.035 225);
+      --ocean-light: oklch(0.55 0.12 200);
+      --ocean-glow: oklch(0.7 0.18 190);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background:
+        radial-gradient(ellipse at top, color-mix(in oklch, var(--ocean-light), transparent 85%), transparent 60%),
+        var(--background);
+      color: var(--foreground);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    main { position: relative; max-width: 36rem; }
+    .code {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+    }
+    .digit {
+      font-size: clamp(6rem, 22vw, 11rem);
+      line-height: 1;
+      background: linear-gradient(to bottom, var(--foreground), color-mix(in oklch, var(--ocean-light), transparent 60%));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      user-select: none;
+    }
+    .shark {
+      color: var(--primary);
+      filter: drop-shadow(0 0 30px var(--ocean-glow));
+      animation: sway 5s ease-in-out infinite;
+    }
+    .shark svg { width: clamp(6rem, 22vw, 10rem); height: auto; }
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ocean-glow);
+      border: 1px solid color-mix(in oklch, var(--ocean-glow), transparent 70%);
+      border-radius: 9999px;
+    }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.25rem, 7vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0 0 1.5rem;
+      text-wrap: balance;
+    }
+    p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: color-mix(in oklch, var(--foreground), transparent 20%);
+      margin: 0 0 2.5rem;
+      text-wrap: pretty;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background-color 0.2s, border-color 0.2s;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .button-primary { background: var(--primary); color: var(--primary-foreground); border: 0; }
+    .button-primary:hover { background: color-mix(in oklch, var(--primary), transparent 10%); }
+    .button-secondary { background: transparent; color: var(--foreground); border: 1px solid color-mix(in oklch, var(--foreground), transparent 75%); }
+    .button-secondary:hover { border-color: var(--primary); }
+    @keyframes sway {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-12px) rotate(4deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .shark { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    {# "5 0 0", where the first zero is the whale shark #}
+    <div class="code" role="img" aria-label="500">
+      <span class="digit" aria-hidden="true">5</span>
+      <div class="shark" aria-hidden="true">
+        {% include "includes/logo.html" with mask_id="logo-spots-500" size=144 class="block" %}
+      </div>
+      <span class="digit" aria-hidden="true">0</span>
+    </div>
 
-        <h2>Sorry, there seems to be an error. Please try again soon.</h2>
-    </body>
+    <span class="badge">{% trans "Rough waters" %}</span>
+
+    <h1>{% trans "Something went wrong" %}</h1>
+
+    <p>
+      {% blocktrans trimmed %}
+      A current caught us off guard and this page couldn't load.
+      It's not you, it's us. Please try again in a few moments.
+      {% endblocktrans %}
+    </p>
+
+    <div class="actions">
+      <button type="button" class="button button-primary" onclick="window.location.reload()">
+        {% trans "Try again" %}
+      </button>
+      <a href="/" class="button button-secondary">{% trans "Swim back home" %}</a>
+    </div>
+  </main>
+</body>
 </html>

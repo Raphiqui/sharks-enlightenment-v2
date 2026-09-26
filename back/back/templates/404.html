@@ -1,11 +1,77 @@
 {% extends "base.html" %}
+{% load i18n wagtailcore_tags navigation_tags %}
 
-{% block title %}Page not found{% endblock %}
+{% block title %}{% trans "Page not found" %}{% endblock %}
 
 {% block body_class %}template-404{% endblock %}
 
-{% block content %}
-<h1>Page not found</h1>
+{% block robots %}<meta name="robots" content="noindex" />{% endblock %}
 
-<h2>Sorry, this page could not be found.</h2>
+{% block content %}
+{% get_site_root as site_root %}
+{% get_menu_items as menu_items %}
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
+
+  {# Deep-water glow and rising bubbles #}
+  <div class="absolute inset-0 overflow-hidden pointer-events-none error-glow" aria-hidden="true">
+    {% for bubble in "123456789" %}
+    <span class="error-bubble" style="--i: {{ bubble }};"></span>
+    {% endfor %}
+  </div>
+
+  <div class="relative z-10 w-full max-w-2xl mx-auto px-6 text-center">
+
+    {# "4 0 4", where the zero is the whale shark #}
+    <div class="error-code flex items-center justify-center gap-2 md:gap-4 mb-8 font-serif font-bold"
+      role="img" aria-label="404" style="animation: fade-in-up 0.8s ease-out forwards;">
+      <span class="error-digit" aria-hidden="true">4</span>
+      <span class="block" style="animation: float 6s ease-in-out infinite;" aria-hidden="true">
+        {% include "includes/logo.html" with mask_id="logo-spots-404" size=144 class="error-shark text-primary" %}
+      </span>
+      <span class="error-digit" aria-hidden="true">4</span>
+    </div>
+
+    <span class="inline-block px-4 py-2 mb-6 text-sm font-medium text-ocean-glow border border-ocean-glow/30 rounded-full backdrop-blur-sm"
+      style="background-color: color-mix(in oklch, var(--background), transparent 80%);">
+      {% trans "Lost at sea" %}
+    </span>
+
+    <h1 class="font-serif text-4xl md:text-6xl font-bold text-foreground mb-6" style="text-wrap: balance;">
+      {% trans "This page swam away" %}
+    </h1>
+
+    <p class="text-lg text-foreground/80 mb-10" style="text-wrap: pretty;">
+      {% blocktrans trimmed %}
+      Whale sharks cross entire oceans without a map, and even they take a wrong turn now and then.
+      The page you are looking for doesn't exist or has moved.
+      {% endblocktrans %}
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+      {% if site_root %}
+      <a href="{% pageurl site_root %}"
+        class="px-8 py-4 text-lg font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-200">
+        {% trans "Swim back home" %}
+      </a>
+      {% endif %}
+    </div>
+
+    {% if menu_items %}
+    <nav aria-label="{% trans 'Explore' %}">
+      <p class="text-sm text-muted-foreground mb-4">{% trans "Or explore" %}</p>
+      <ul class="flex flex-wrap items-center justify-center gap-3 list-none p-0 m-0">
+        {% for menuitem in menu_items %}
+        <li>
+          <a href="{% pageurl menuitem %}"
+            class="inline-block px-5 py-2 rounded-full border border-border/60 text-foreground/80 hover:text-foreground hover:border-primary transition-colors duration-200">
+            {{ menuitem.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}

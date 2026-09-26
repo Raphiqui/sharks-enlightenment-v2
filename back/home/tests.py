@@ -1,6 +1,10 @@
 import json
 import re
 
+from django.template.loader import render_to_string
+from django.test import RequestFactory
+from django.utils import translation
+from django.views.defaults import server_error
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Locale, Page, Site
@@ -328,3 +332,61 @@ class SeoTests(WagtailPageTestCase):
     def test_search_results_are_not_indexed(self):
         response = self.client.get("/en/search/?query=shark")
         self.assertContains(response, '<meta name="robots" content="noindex, follow" />')
+
+
+class ErrorPageTests(WagtailPageTestCase):
+    """
+    Tests for the custom 404 and 500 pages.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.create(hostname="testserver", root_page=root_page, is_default_site=True)
+        self.homepage = HomePage(title="Home")
+        root_page.add_child(instance=self.homepage)
+        Site.objects.update(root_page=self.homepage)
+
+    def test_missing_page_uses_custom_404(self):
+        response = self.client.get("/en/this-page-does-not-exist/")
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, "404.html")
+        self.assertContains(response, "This page swam away", status_code=404)
+        self.assertContains(response, 'href="/en/"', status_code=404)
+
+    def test_404_is_translated(self):
+        self.translate_homepage("fr")
+        response = self.client.get("/fr/cette-page-n-existe-pas/")
+        self.assertContains(response, "Cette page s'est échappée", status_code=404)
+
+    def test_404_is_not_indexed(self):
+        response = self.client.get("/en/this-page-does-not-exist/")
+        self.assertContains(response, '<meta name="robots" content="noindex" />', status_code=404)
+
+    def test_500_renders_without_a_request(self):
+        # Django renders 500.html with no context: it must not need a page,
+        # a request or the database.
+        with translation.override("en"):
+            html = render_to_string("500.html")
+        self.assertIn("Something went wrong", html)
+        self.assertIn('<meta name="robots" content="noindex" />', html)
+
+    def test_server_error_view_uses_custom_500(self):
+        with translation.override("en"):
+            response = server_error(RequestFactory().get("/"))
+        self.assertEqual(response.status_code, 500)
+        self.assertIn(b"Something went wrong", response.content)
+
+    def test_preview_routes_only_exist_in_debug(self):
+        # Tests run with DEBUG=False, like production.
+        self.assertEqual(self.client.get("/en/500/").status_code, 404)
+
+    def test_sitemap_never_lists_error_pages(self):
+        content = self.client.get("/sitemap.xml").content.decode()
+        self.assertNotIn("/404/", content)
+        self.assertNotIn("/500/", content)
+
+    def translate_homepage(self, language_code):
+        locale = Locale.objects.get_or_create(language_code=language_code)[0]
+        translation = self.homepage.copy_for_translation(locale, copy_parents=True)
+        translation.save_revision().publish()
+        return translation

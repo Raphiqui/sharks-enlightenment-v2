@@ -199,3 +199,34 @@ msgstr "Opciones posibles"
 
 msgid "Correct answer"
 msgstr "Respuesta correcta"
+
+# Error pages
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+msgid "Lost at sea"
+msgstr "Perdido en el mar"
+
+msgid "This page swam away"
+msgstr "Esta página se fue nadando"
+
+msgid "Whale sharks cross entire oceans without a map, and even they take a wrong turn now and then. The page you are looking for doesn't exist or has moved."
+msgstr "Los tiburones ballena cruzan océanos enteros sin mapa, e incluso ellos se equivocan de camino de vez en cuando. La página que buscas no existe o se ha movido."
+
+msgid "Swim back home"
+msgstr "Volver al inicio"
+
+msgid "Or explore"
+msgstr "O explora"
+
+msgid "Something went wrong"
+msgstr "Algo salió mal"
+
+msgid "Rough waters"
+msgstr "Aguas turbulentas"
+
+msgid "A current caught us off guard and this page couldn't load. It's not you, it's us. Please try again in a few moments."
+msgstr "Una corriente nos tomó por sorpresa y esta página no pudo cargarse. No es culpa tuya, es nuestra. Inténtalo de nuevo en unos momentos."
+
+msgid "Try again"
+msgstr "Reintentar"

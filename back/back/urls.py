@@ -33,10 +33,19 @@ urlpatterns = [
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    from django.http import Http404
+    from django.views import defaults
 
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # Preview the error pages (e.g. /fr/404/), which DEBUG otherwise replaces
+    # with debug pages. Language-prefixed so LocaleMiddleware leaves them alone.
+    urlpatterns += i18n_patterns(
+        path("404/", defaults.page_not_found, {"exception": Http404()}),
+        path("500/", defaults.server_error),
+    )
 
 # These paths are translatable so will be given a language prefix (eg, '/en', '/fr')
 urlpatterns = urlpatterns + i18n_patterns(
