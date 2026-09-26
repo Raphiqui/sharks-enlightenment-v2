@@ -250,7 +250,9 @@ class SeoTests(WagtailPageTestCase):
         self.assertIn('<html lang="fr"', self.head(french))
 
     def test_title_includes_site_name(self):
-        self.assertRegex(self.head(self.homepage), r"<title>\s*Home\s*- Sharks Enlightenment\s*</title>")
+        self.assertRegex(
+            self.head(self.homepage), r"<title>\s*Home\s*- Sharks Enlightenment\s*</title>"
+        )
 
     def test_meta_description_falls_back_on_hero_subtitle(self):
         self.assertIn(
@@ -261,17 +263,23 @@ class SeoTests(WagtailPageTestCase):
     def test_meta_description_prefers_search_description(self):
         self.homepage.search_description = "Learn to love sharks."
         self.homepage.save_revision().publish()
-        self.assertIn('<meta name="description" content="Learn to love sharks." />', self.head(self.homepage))
+        self.assertIn(
+            '<meta name="description" content="Learn to love sharks." />', self.head(self.homepage)
+        )
 
     def test_canonical_url(self):
-        self.assertIn('<link rel="canonical" href="http://testserver/en/" />', self.head(self.homepage))
+        self.assertIn(
+            '<link rel="canonical" href="http://testserver/en/" />', self.head(self.homepage)
+        )
 
     def test_hreflang_alternates_with_x_default(self):
         self.translate(self.homepage, "fr")
         head = self.head(self.homepage)
         self.assertIn('<link rel="alternate" hreflang="en" href="http://testserver/en/" />', head)
         self.assertIn('<link rel="alternate" hreflang="fr" href="http://testserver/fr/" />', head)
-        self.assertIn('<link rel="alternate" hreflang="x-default" href="http://testserver/en/" />', head)
+        self.assertIn(
+            '<link rel="alternate" hreflang="x-default" href="http://testserver/en/" />', head
+        )
 
     def test_no_hreflang_without_translations(self):
         self.assertNotIn('<link rel="alternate"', self.head(self.homepage))
@@ -284,7 +292,9 @@ class SeoTests(WagtailPageTestCase):
 
     def test_home_page_structured_data_is_website(self):
         head = self.head(self.homepage)
-        data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1))
+        data = json.loads(
+            re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1)
+        )
         self.assertEqual(data["@type"], "WebSite")
         self.assertEqual(data["name"], "Sharks Enlightenment")
         self.assertEqual(data["inLanguage"], "en")
@@ -304,7 +314,9 @@ class SeoTests(WagtailPageTestCase):
         sharks.add_child(instance=shark)
 
         head = self.head(shark)
-        data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1))
+        data = json.loads(
+            re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1)
+        )
         self.assertEqual(data["@type"], "Article")
         self.assertEqual(data["headline"], "Whale shark")
         self.assertEqual(data["alternativeHeadline"], "Rhincodon typus")
