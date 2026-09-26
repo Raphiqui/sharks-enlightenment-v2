@@ -14,6 +14,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
+    gettext \
  && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /
@@ -30,4 +31,4 @@ COPY --chown=wagtail:wagtail back/ .
 
 USER wagtail
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+CMD set -xe; python manage.py compilemessages; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120

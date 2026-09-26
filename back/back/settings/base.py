@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "search",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
+    "wagtail.contrib.sitemaps",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
     "cloudinary_storage",
     "cloudinary",
     "django_vite",
@@ -82,6 +84,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -225,6 +228,9 @@ LANGUAGES = [
 ]
 
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
+
+# Project-level translations (back/locale/), outside any app's own locale/ dir.
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 USE_I18N = True
 

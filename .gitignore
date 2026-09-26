@@ -4,3 +4,5 @@ node_modules
 .python-version
 *.sqlite3
 back/backups/
+# Compiled translations, built by compilemessages
+*.mo
