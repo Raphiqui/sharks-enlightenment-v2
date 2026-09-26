@@ -1,7 +1,12 @@
+import json
+import re
+
+from wagtail.images import get_image_model
+from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Locale, Page, Site
 from wagtail.test.utils import WagtailPageTestCase
 
-from home.models import HomePage, QuizPage
+from home.models import HomePage, QuizPage, SharkPage, SharksPage
 
 
 class HomeSetUpTests(WagtailPageTestCase):
@@ -89,16 +94,19 @@ class LanguageSwitcherTests(WagtailPageTestCase):
         translation.refresh_from_db()
         return translation
 
+    def body(self, response):
+        return response.content.decode().split("</head>", 1)[1]
+
     def test_switcher_hidden_without_translations(self):
         response = self.client.get(self.homepage.url)
         self.assertNotContains(response, 'hreflang="')
 
     def test_switcher_lists_current_page_and_translations(self):
         self.translate_homepage("fr")
-        response = self.client.get(self.homepage.url)
+        body = self.body(self.client.get(self.homepage.url))
         # Rendered twice: desktop and mobile switchers.
-        self.assertContains(response, 'hreflang="en"', count=2)
-        self.assertContains(response, 'hreflang="fr"', count=2)
+        self.assertEqual(body.count('hreflang="en"'), 2)
+        self.assertEqual(body.count('hreflang="fr"'), 2)
 
     def test_switcher_marks_current_language(self):
         self.translate_homepage("fr")
@@ -112,7 +120,7 @@ class LanguageSwitcherTests(WagtailPageTestCase):
     def test_switcher_follows_settings_language_order(self):
         self.translate_homepage("fr")
         self.translate_homepage("es")
-        content = self.client.get(self.homepage.url).content.decode()
+        content = self.body(self.client.get(self.homepage.url))
         self.assertLess(content.index('hreflang="en"'), content.index('hreflang="es"'))
         self.assertLess(content.index('hreflang="es"'), content.index('hreflang="fr"'))
 
@@ -192,3 +200,119 @@ class QuizApiTests(WagtailPageTestCase):
         )
         self.assertEqual(second["question"], "Are sharks mammals?")
         self.assertEqual(second["options"][1], {"option": "No", "is_correct": True})
+
+
+class SeoTests(WagtailPageTestCase):
+    """
+    Tests for what search engines see: robots.txt, sitemap and <head> metadata.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.all().delete()
+        Site.objects.create(
+            hostname="testserver",
+            root_page=root_page,
+            is_default_site=True,
+            site_name="Sharks Enlightenment",
+        )
+        self.homepage = HomePage(title="Home", hero_subtitle="Dive into the world of sharks.")
+        root_page.add_child(instance=self.homepage)
+        # The site root must be the home page for sitemap and canonical URLs.
+        Site.objects.update(root_page=self.homepage)
+
+    def translate(self, page, language_code):
+        locale = Locale.objects.get_or_create(language_code=language_code)[0]
+        translation = page.copy_for_translation(locale, copy_parents=True)
+        translation.save_revision().publish()
+        translation.refresh_from_db()
+        return translation
+
+    def head(self, page):
+        return self.client.get(page.url).content.decode().split("</head>")[0]
+
+    def test_robots_txt_points_to_sitemap(self):
+        response = self.client.get("/robots.txt")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "text/plain")
+        self.assertIn("Disallow: /admin/", response.content.decode())
+        self.assertIn("Sitemap: http://testserver/sitemap.xml", response.content.decode())
+
+    def test_sitemap_lists_every_locale(self):
+        self.translate(self.homepage, "fr")
+        content = self.client.get("/sitemap.xml").content.decode()
+        self.assertIn("<loc>http://testserver/en/</loc>", content)
+        self.assertIn("<loc>http://testserver/fr/</loc>", content)
+
+    def test_html_lang_matches_page_language(self):
+        french = self.translate(self.homepage, "fr")
+        self.assertIn('<html lang="en"', self.head(self.homepage))
+        self.assertIn('<html lang="fr"', self.head(french))
+
+    def test_title_includes_site_name(self):
+        self.assertRegex(self.head(self.homepage), r"<title>\s*Home\s*- Sharks Enlightenment\s*</title>")
+
+    def test_meta_description_falls_back_on_hero_subtitle(self):
+        self.assertIn(
+            '<meta name="description" content="Dive into the world of sharks." />',
+            self.head(self.homepage),
+        )
+
+    def test_meta_description_prefers_search_description(self):
+        self.homepage.search_description = "Learn to love sharks."
+        self.homepage.save_revision().publish()
+        self.assertIn('<meta name="description" content="Learn to love sharks." />', self.head(self.homepage))
+
+    def test_canonical_url(self):
+        self.assertIn('<link rel="canonical" href="http://testserver/en/" />', self.head(self.homepage))
+
+    def test_hreflang_alternates_with_x_default(self):
+        self.translate(self.homepage, "fr")
+        head = self.head(self.homepage)
+        self.assertIn('<link rel="alternate" hreflang="en" href="http://testserver/en/" />', head)
+        self.assertIn('<link rel="alternate" hreflang="fr" href="http://testserver/fr/" />', head)
+        self.assertIn('<link rel="alternate" hreflang="x-default" href="http://testserver/en/" />', head)
+
+    def test_no_hreflang_without_translations(self):
+        self.assertNotIn('<link rel="alternate"', self.head(self.homepage))
+
+    def test_open_graph_tags(self):
+        head = self.head(self.homepage)
+        self.assertIn('<meta property="og:type" content="website" />', head)
+        self.assertIn('<meta property="og:title" content="Home" />', head)
+        self.assertIn('<meta property="og:site_name" content="Sharks Enlightenment" />', head)
+
+    def test_home_page_structured_data_is_website(self):
+        head = self.head(self.homepage)
+        data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1))
+        self.assertEqual(data["@type"], "WebSite")
+        self.assertEqual(data["name"], "Sharks Enlightenment")
+        self.assertEqual(data["inLanguage"], "en")
+
+    def test_shark_page_structured_data_is_article(self):
+        sharks = SharksPage(title="Sharks")
+        self.homepage.add_child(instance=sharks)
+        shark = SharkPage(
+            title="Whale shark",
+            name="Whale shark",
+            latin_name="Rhincodon typus",
+            size="14 m",
+            conservation_status="endangered",
+            image=get_image_model().objects.create(title="Whale shark", file=get_test_image_file()),
+            description="<p>The <b>largest</b> fish in the world.</p>",
+        )
+        sharks.add_child(instance=shark)
+
+        head = self.head(shark)
+        data = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', head).group(1))
+        self.assertEqual(data["@type"], "Article")
+        self.assertEqual(data["headline"], "Whale shark")
+        self.assertEqual(data["alternativeHeadline"], "Rhincodon typus")
+        self.assertEqual(data["description"], "The largest fish in the world.")
+        self.assertIn("fill-1200x630", data["image"])
+        self.assertIn('<meta property="og:type" content="article" />', head)
+        self.assertIn('<meta name="twitter:card" content="summary_large_image" />', head)
+
+    def test_search_results_are_not_indexed(self):
+        response = self.client.get("/en/search/?query=shark")
+        self.assertContains(response, '<meta name="robots" content="noindex, follow" />')

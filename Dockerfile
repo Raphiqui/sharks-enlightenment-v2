@@ -26,6 +26,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
+    gettext \
  && rm -rf /var/lib/apt/lists/*
 
 COPY back/requirements.txt /
@@ -46,5 +47,6 @@ USER wagtail
 RUN mkdir -p /app/media /app/static
 
 RUN python manage.py collectstatic --noinput --clear
+RUN python manage.py compilemessages
 
 CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:8000 --workers 1 --timeout 120 --access-logfile - --error-logfile - --log-level debug --capture-output
