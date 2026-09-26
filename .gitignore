@@ -3,3 +3,4 @@ node_modules
 *__pycache__
 .python-version
 *.sqlite3
+back/backups/
