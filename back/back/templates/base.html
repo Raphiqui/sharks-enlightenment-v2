@@ -1,5 +1,5 @@
 {% load i18n static wagtailcore_tags wagtailuserbar %}
-{% load django_vite %}
+{% load django_vite vite_tags %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" class="dark">
@@ -43,6 +43,17 @@
     {% block extra_css %}
     {# Override this in templates to add extra stylesheets #}
     {% endblock %}
+
+    {# Paint the page background before any stylesheet arrives. #}
+    <style>html { background-color: oklch(0.08 0.025 235); color-scheme: dark; }</style>
+
+    {% vite_dev_mode as vite_dev %}
+    {% if vite_dev %}
+    {# In dev, Vite injects CSS from JS after the HTML has painted, which flashes #}
+    {# unstyled content. Render-blocking links avoid that; the build already emits them. #}
+    <link rel="stylesheet" href="{% vite_asset_url 'src/tailwind.css' %}">
+    <link rel="stylesheet" href="{% vite_asset_url 'src/style.scss' %}">
+    {% endif %}
 
     {% vite_hmr_client %}
     <script>window.DJANGO_LANGUAGE = "{{ LANGUAGE_CODE }}";</script>
