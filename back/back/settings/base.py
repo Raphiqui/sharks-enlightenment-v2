@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django_vite",
     "wagtail_localize",
     "wagtail_localize.locales",
+    "axes",
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,25 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    # Must be last: turns Axes lockouts into responses.
+    "axes.middleware.AxesMiddleware",
 ]
+
+# Admin path, kept out of the (public) repository in production via ADMIN_PATH.
+ADMIN_PATH = (os.environ.get("ADMIN_PATH", "").strip("/") or "admin") + "/"
+
+# ── Login brute-force protection (django-axes) ─────────────────────────────
+AUTHENTICATION_BACKENDS = [
+    # Must be first so locked-out users are rejected before any password check.
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 0.25  # hours
+# Lock a username after too many failures from anywhere, and an IP after too
+# many failures on any username: rotating either one alone doesn't help.
+AXES_LOCKOUT_PARAMETERS = ["username", "ip_address"]
+AXES_RESET_ON_SUCCESS = True
 
 ROOT_URLCONF = "back.urls"
 

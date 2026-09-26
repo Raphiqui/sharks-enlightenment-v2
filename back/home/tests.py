@@ -1,6 +1,9 @@
 import json
 import re
 
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+from django.urls import reverse
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Locale, Page, Site
@@ -235,7 +238,8 @@ class SeoTests(WagtailPageTestCase):
         response = self.client.get("/robots.txt")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "text/plain")
-        self.assertIn("Disallow: /admin/", response.content.decode())
+        # Admin pages are noindex already; listing them here would only advertise them.
+        self.assertNotIn("admin", response.content.decode())
         self.assertIn("Sitemap: http://testserver/sitemap.xml", response.content.decode())
 
     def test_sitemap_lists_every_locale(self):
@@ -328,3 +332,49 @@ class SeoTests(WagtailPageTestCase):
     def test_search_results_are_not_indexed(self):
         response = self.client.get("/en/search/?query=shark")
         self.assertContains(response, '<meta name="robots" content="noindex, follow" />')
+
+
+class AdminSecurityTests(TestCase):
+    """
+    Tests for admin exposure and login brute-force protection (django-axes).
+    """
+
+    password = "correct-horse-battery-staple"
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_superuser(
+            username="editor", email="editor@example.com", password=self.password
+        )
+        self.login_url = reverse("wagtailadmin_login")
+
+    def login(self, password):
+        return self.client.post(self.login_url, {"username": "editor", "password": password})
+
+    def test_django_admin_is_not_exposed(self):
+        response = self.client.get("/django-admin/", follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_correct_password_logs_in(self):
+        self.login(self.password)
+        self.assertIn("_auth_user_id", self.client.session)
+
+    def test_account_locked_after_repeated_failures(self):
+        for _ in range(5):
+            self.login("wrong-password")
+
+        response = self.login(self.password)
+
+        self.assertEqual(response.status_code, 429)
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_successful_login_resets_failure_count(self):
+        for _ in range(4):
+            self.login("wrong-password")
+        self.login(self.password)
+        self.client.logout()
+
+        for _ in range(4):
+            self.login("wrong-password")
+        self.login(self.password)
+
+        self.assertIn("_auth_user_id", self.client.session)
