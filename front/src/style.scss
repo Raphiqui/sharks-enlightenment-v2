@@ -319,3 +319,41 @@
       font-size: 26px;
     }
   }
+
+// Error pages
+.error-glow {
+  background: radial-gradient(ellipse at top, color-mix(in oklch, var(--ocean-light), transparent 85%), transparent 60%);
+}
+
+.error-digit {
+  font-size: clamp(6rem, 22vw, 11rem);
+  line-height: 1;
+  background: linear-gradient(to bottom, var(--foreground), color-mix(in oklch, var(--ocean-light), transparent 60%));
+  background-clip: text;
+  color: transparent;
+}
+
+.error-shark {
+  width: clamp(6rem, 22vw, 10rem);
+  height: auto;
+  filter: drop-shadow(0 0 30px var(--ocean-glow));
+}
+
+// Rising bubbles in pure CSS, spread out by their --i index (1-9).
+.error-bubble {
+  position: absolute;
+  bottom: -2rem;
+  left: calc(var(--i) * 10% - 2%);
+  width: calc(0.4rem + var(--i) * 0.15rem);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background-color: color-mix(in oklch, var(--ocean-glow), transparent 80%);
+  animation: bubble calc(6s + var(--i) * 0.7s) linear infinite;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-bubble {
+    display: none;
+  }
+}
