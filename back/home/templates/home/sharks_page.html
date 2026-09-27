@@ -34,16 +34,6 @@
       {% include_block block with index=forloop.counter0 %}
       {% endfor %}
     </div>
-
-    {# Navigation Dots (optional) #}
-    {% if page.sharks %}
-    <div class="flex justify-center gap-3 mt-8">
-      {% for block in page.sharks %}
-      <button class="w-3 h-3 rounded-full transition-all duration-300 bg-foreground/20 hover:bg-foreground/40"
-        data-index="{{ forloop.counter0 }}" aria-label="View shark {{ forloop.counter }}"></button>
-      {% endfor %}
-    </div>
-    {% endif %}
   </div>
 </section>
 
