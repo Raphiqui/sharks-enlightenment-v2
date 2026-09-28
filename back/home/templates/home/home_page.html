@@ -37,14 +37,9 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.experiences-header').forEach(header => {
-          observer.observe(header);
-
-          // Observe all scroll-in elements
-          document.querySelectorAll('[data-animate="scroll-in"]').forEach(function (el) {
+        document.querySelectorAll('.experiences-header, [data-animate="scroll-in"]').forEach(function (el) {
             observer.observe(el);
-          });
-        })
+        });
     })();
 </script>
 

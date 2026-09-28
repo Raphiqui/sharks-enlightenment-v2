@@ -1,0 +1,77 @@
+{% load wagtailimages_tags i18n %}
+
+<div class="shark-facts grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[18rem] grid-flow-row-dense gap-4 md:gap-5">
+  {% for fact in value.facts %}
+  <article
+    class="shark-fact group relative overflow-hidden rounded-3xl border border-foreground/10 bg-ocean-deep opacity-0 translate-y-20 transition-all duration-700 focus-within:border-ocean-glow/50 hover:border-ocean-glow/40 {% if fact.wide %}sm:col-span-2{% endif %}"
+    style="transition-delay: {{ forloop.counter0 }}00ms;"
+    data-animate="scroll-in"
+    tabindex="0"
+  >
+    {% if fact.image %}
+      {% image fact.image fill-900x600 as img %}
+      <img
+        src="{{ img.url }}"
+        alt=""
+        loading="lazy"
+        class="shark-fact__image absolute inset-0 h-full w-full object-cover transition-transform duration-1000"
+      />
+    {% else %}
+      <div
+        class="absolute inset-0"
+        style="background: radial-gradient(circle at 80% 0%, color-mix(in oklch, var(--ocean-glow), transparent 75%), transparent 60%);"
+      ></div>
+    {% endif %}
+
+    {# Readability gradient, deepens when the description slides in #}
+    <div class="shark-fact__overlay absolute inset-0 transition-opacity duration-500"></div>
+
+    <div class="relative flex h-full flex-col justify-end p-6 md:p-7">
+      <span class="mb-auto inline-flex w-fit items-center rounded-full border border-ocean-glow/30 bg-background/40 px-3 py-1 font-mono text-xs text-ocean-glow backdrop-blur-sm">
+        {{ forloop.counter|stringformat:"02d" }}
+      </span>
+
+      <p
+        class="shark-fact__highlight font-serif font-bold leading-none tracking-tight {% if fact.highlight|length > 14 %}text-3xl md:text-4xl{% else %}text-5xl md:text-6xl{% endif %}"
+      >{{ fact.highlight }}</p>
+
+      {% if fact.caption %}
+        <p class="mt-3 text-base font-medium text-foreground/85 md:text-lg" style="text-wrap: balance">
+          {{ fact.caption }}
+        </p>
+      {% endif %}
+
+      {% if fact.description or fact.source %}
+        <div class="shark-fact__details grid transition-all duration-500">
+          <div class="overflow-hidden">
+            {% if fact.description %}
+              <p class="pt-3 text-sm leading-relaxed text-foreground/75 line-clamp-4 md:text-base">
+                {{ fact.description }}
+              </p>
+            {% endif %}
+            {% if fact.source %}
+              <a
+                href="{{ fact.source }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-ocean-glow hover:underline"
+              >
+                {% trans "Source" %}
+                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5h5v5m0-5L10 14M19 14v5H5V5h5" />
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {# Glow bar, same language as the experience cards #}
+    <div
+      class="pointer-events-none absolute bottom-0 left-0 right-0 h-1 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100"
+      style="background: linear-gradient(to right, transparent, var(--ocean-glow), transparent);"
+    ></div>
+  </article>
+  {% endfor %}
+</div>

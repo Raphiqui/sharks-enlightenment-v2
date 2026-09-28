@@ -1,5 +1,14 @@
 from django.utils.translation import gettext_lazy as _
-from wagtail.blocks import CharBlock, PageChooserBlock, StreamBlock, StructBlock
+from wagtail.blocks import (
+    BooleanBlock,
+    CharBlock,
+    ListBlock,
+    PageChooserBlock,
+    StreamBlock,
+    StructBlock,
+    TextBlock,
+    URLBlock,
+)
 from wagtail.images.blocks import ImageChooserBlock
 
 
@@ -64,6 +73,45 @@ class CardGrid(StructBlock):
         verbose_name_plural = _("Cards Grid")
         template = "blocks/card-grid.html"
         form_classname = "card-grid-block"
+
+
+class _SharkFact(StructBlock):
+    highlight = CharBlock(
+        label=_("Key figure"),
+        help_text=_("Short and punchy, e.g. '400+', '1 in 3.7M' or 'Dermal denticles'"),
+        max_length=40,
+        required=True,
+    )
+    caption = CharBlock(
+        label=_("Caption"),
+        help_text=_("What the key figure is about, e.g. 'known shark species'"),
+        required=False,
+    )
+    description = TextBlock(
+        label=_("Description"),
+        help_text=_("Revealed when the card is hovered or focused"),
+        required=False,
+    )
+    image = ImageChooserBlock(label=_("Image"), required=False)
+    source = URLBlock(label=_("Source"), required=False)
+    wide = BooleanBlock(
+        label=_("Wide card"),
+        help_text=_("Make the card span two columns to put the fact forward"),
+        required=False,
+    )
+
+    class Meta:
+        icon = "pick"
+        label = _("Fact")
+
+
+class SharkFacts(StructBlock):
+    facts = ListBlock(_SharkFact(), label=_("Facts"), min_num=1)
+
+    class Meta:
+        icon = "list-ul"
+        verbose_name = _("Shark facts")
+        template = "blocks/shark_facts.html"
 
 
 class Anatomy(StructBlock):

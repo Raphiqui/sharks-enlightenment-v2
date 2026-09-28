@@ -181,6 +181,54 @@
   }
 }
 
+/* ========== Shark Facts ========== */
+.shark-facts {
+  margin: 3rem 0;
+}
+
+.shark-fact {
+  outline: none;
+
+  &__overlay {
+    background: linear-gradient(
+      to top,
+      var(--ocean-deep) 10%,
+      color-mix(in oklch, var(--ocean-deep), transparent 30%) 45%,
+      color-mix(in oklch, var(--ocean-deep), transparent 85%)
+    );
+  }
+
+  &__highlight {
+    background: linear-gradient(135deg, var(--foreground) 30%, var(--ocean-glow));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Collapsed until hovered / focused, animated through grid rows
+  &__details {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  &:hover,
+  &:focus-within {
+    .shark-fact__image {
+      transform: scale(1.08);
+    }
+
+    .shark-fact__details {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--ocean-glow);
+  }
+}
+
 /* ========== Richtext Styling ========== */
 .richtext-content {
   color: color-mix(in oklch, var(--foreground), transparent 15%);

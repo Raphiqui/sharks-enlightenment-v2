@@ -7,7 +7,7 @@ from wagtail.images import get_image_model_string
 from wagtail.models import Page
 from wagtail_localize.fields import SynchronizedField, TranslatableField
 
-from .blocks import Anatomy, CardGrid, Heading, SharkThumbnail
+from .blocks import Anatomy, CardGrid, Heading, SharkFacts, SharkThumbnail
 from .snippets import CallToAction
 
 # International Union for Conservation of Nature
@@ -92,7 +92,12 @@ class HeroMixin(Page):
 
 class HomePage(HeroMixin):
     body = StreamField(
-        [("heading", Heading()), ("card_grid", CardGrid()), ("anatomy", Anatomy())],
+        [
+            ("heading", Heading()),
+            ("card_grid", CardGrid()),
+            ("anatomy", Anatomy()),
+            ("shark_facts", SharkFacts()),
+        ],
         blank=True,
         null=True,
     )
