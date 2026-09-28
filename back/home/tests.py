@@ -390,3 +390,51 @@ class ErrorPageTests(WagtailPageTestCase):
         translation = self.homepage.copy_for_translation(locale, copy_parents=True)
         translation.save_revision().publish()
         return translation
+
+
+class SharkFactsBlockTests(WagtailPageTestCase):
+    """
+    Tests for the shark facts block rendered on the homepage.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.create(hostname="testsite", root_page=root_page, is_default_site=True)
+        image = get_image_model().objects.create(title="Mako", file=get_test_image_file())
+        self.homepage = HomePage(
+            title="Home",
+            body=[
+                (
+                    "shark_facts",
+                    {
+                        "facts": [
+                            {
+                                "highlight": "45 mph",
+                                "caption": "Top speed of the shortfin mako",
+                                "description": "The fastest shark in the ocean.",
+                                "image": image,
+                                "source": "https://example.com/mako",
+                                "wide": True,
+                            },
+                            {"highlight": "400+", "caption": "Known shark species"},
+                        ]
+                    },
+                )
+            ],
+        )
+        root_page.add_child(instance=self.homepage)
+
+    def test_facts_are_rendered(self):
+        response = self.client.get(self.homepage.url)
+        self.assertContains(response, "45 mph")
+        self.assertContains(response, "Top speed of the shortfin mako")
+        self.assertContains(response, "The fastest shark in the ocean.")
+        self.assertContains(response, 'href="https://example.com/mako"')
+        self.assertContains(response, "Known shark species")
+        self.assertContains(response, 'class="shark-fact ', count=2)
+
+    def test_wide_fact_spans_two_columns(self):
+        html = self.client.get(self.homepage.url).content.decode()
+        cards = re.findall(r'<article\s+class="shark-fact [^"]*"', html)
+        self.assertIn("sm:col-span-2", cards[0])
+        self.assertNotIn("sm:col-span-2", cards[1])
