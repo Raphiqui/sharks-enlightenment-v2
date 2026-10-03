@@ -9,6 +9,8 @@ from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.models import Locale, Page, Site
 from wagtail.test.utils import WagtailPageTestCase
+from wagtail_localize.models import TranslationSource
+from wagtail_localize.operations import translate_object, translate_page_subtree
 
 from home.models import HomePage, QuizPage, SharkPage, SharksPage
 
@@ -438,3 +440,53 @@ class SharkFactsBlockTests(WagtailPageTestCase):
         cards = re.findall(r'<article\s+class="shark-fact [^"]*"', html)
         self.assertIn("sm:col-span-2", cards[0])
         self.assertNotIn("sm:col-span-2", cards[1])
+
+
+class TranslationConfigTests(WagtailPageTestCase):
+    """
+    Tests that every page type can be submitted for translation with wagtail-localize.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.create(hostname="testsite", root_page=root_page, is_default_site=True)
+        self.homepage = HomePage(
+            title="Home", body=[("heading", {"title": "Welcome", "subtitle": "", "eyebrow": ""})]
+        )
+        root_page.add_child(instance=self.homepage)
+        self.sharks = SharksPage(title="Sharks")
+        self.homepage.add_child(instance=self.sharks)
+        self.shark = SharkPage(
+            title="Blue shark",
+            name="Blue shark",
+            latin_name="Prionace glauca",
+            image=get_image_model().objects.create(title="Blue", file=get_test_image_file()),
+            size="3.8 m",
+            conservation_status="near threatened",
+        )
+        self.sharks.add_child(instance=self.shark)
+        self.fr = Locale.objects.create(language_code="fr")
+
+    def segment_paths(self, page):
+        source, _ = TranslationSource.get_or_create_from_instance(page)
+        return set(source.stringsegment_set.values_list("context__path", flat=True))
+
+    def test_subtree_translation_creates_french_pages(self):
+        # Same sequence as the "Translate" admin action with "Include subtree" ticked
+        translate_object(self.homepage, [self.fr])
+        translate_page_subtree(self.homepage.id, [self.fr], None, None)
+        self.assertTrue(
+            SharkPage.objects.filter(locale=self.fr, latin_name="Prionace glauca").exists()
+        )
+
+    def test_page_titles_are_translatable(self):
+        for page in (self.homepage, self.sharks, self.shark):
+            self.assertIn("title", self.segment_paths(page))
+
+    def test_homepage_body_is_translatable(self):
+        self.assertTrue(any(p.startswith("body.") for p in self.segment_paths(self.homepage)))
+
+    def test_shark_latin_name_is_not_translatable(self):
+        paths = self.segment_paths(self.shark)
+        self.assertIn("name", paths)
+        self.assertNotIn("latin_name", paths)
