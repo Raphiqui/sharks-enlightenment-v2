@@ -34,9 +34,6 @@
       });
     }, { threshold: 0.1 });
 
-    const header = document.getElementById('sharks-header');
-    if (header) observer.observe(header);
-
     // Animate shark cards on scroll
     document.querySelectorAll('.shark-card').forEach(function (el) {
       el.classList.add('opacity-0', 'translate-y-20', 'transition-all', 'duration-700');
