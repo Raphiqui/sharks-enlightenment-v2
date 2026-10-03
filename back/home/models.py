@@ -21,6 +21,15 @@ IUCN_STATUS = [
     ("least concern", _("least concern")),
 ]
 
+# Declaring translatable_fields replaces wagtail-localize's defaults, so the core
+# Page fields have to be listed again on every page type.
+PAGE_TRANSLATABLE_FIELDS = [
+    TranslatableField("title"),
+    TranslatableField("slug"),
+    TranslatableField("seo_title"),
+    TranslatableField("search_description"),
+]
+
 
 class HeroMixin(Page):
     """
@@ -77,7 +86,7 @@ class HeroMixin(Page):
         ),
     ]
 
-    translatable_fields = [
+    translatable_fields = PAGE_TRANSLATABLE_FIELDS + [
         SynchronizedField("hero_image"),
         SynchronizedField("hero_cta"),
         TranslatableField("hero_bubble_text"),
@@ -105,6 +114,8 @@ class HomePage(HeroMixin):
     content_panels = Page.content_panels + [
         FieldPanel("body"),
     ]
+
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body")]
 
 
 class _QuizOptionBlock(StructBlock):
@@ -191,10 +202,14 @@ class SharkPage(Page):
         FieldPanel("distribution_map"),
     ]
 
-    translatable_fields = HeroMixin.translatable_fields + [
+    translatable_fields = PAGE_TRANSLATABLE_FIELDS + [
         TranslatableField("name"),
         TranslatableField("size"),
         TranslatableField("description"),
+        SynchronizedField("latin_name"),
+        SynchronizedField("image"),
+        SynchronizedField("conservation_status"),
+        SynchronizedField("distribution_map"),
     ]
 
 
@@ -219,7 +234,10 @@ class QuizPage(HeroMixin):
         FieldPanel("quiz"),
     ]
 
-    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("title")]
+    translatable_fields = HeroMixin.translatable_fields + [
+        TranslatableField("body"),
+        TranslatableField("quiz"),
+    ]
 
 
 class AboutPage(HeroMixin):
@@ -230,7 +248,4 @@ class AboutPage(HeroMixin):
 
     content_panels = Page.content_panels + [FieldPanel("body")]
 
-    translatable_fields = HeroMixin.translatable_fields + [
-        TranslatableField("body"),
-        TranslatableField("title"),
-    ]
+    translatable_fields = HeroMixin.translatable_fields + [TranslatableField("body")]

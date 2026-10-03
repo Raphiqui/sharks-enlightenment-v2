@@ -18,13 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-# Header
-msgid "Sharks"
-msgstr "Tiburones"
-
-msgid "Enlightenment"
-msgstr "Iluminación"
-
 # Footer
 msgid "Discover the incredible world of sharks and marine life. Learn about different species, their habitats, and why they matter."
 msgstr "Descubre el increíble mundo de los tiburones y la vida marina. Aprende sobre diferentes especies, sus hábitats y por qué son importantes."
@@ -32,8 +25,8 @@ msgstr "Descubre el increíble mundo de los tiburones y la vida marina. Aprende 
 msgid "Explore"
 msgstr "Explorar"
 
-msgid "Sharks Enlightenment. All rights reserved."
-msgstr "Tiburones Iluminación. Todos los derechos reservados."
+msgid "All rights reserved."
+msgstr "Todos los derechos reservados."
 
 # Shark page
 msgid "Back to Sharks"
