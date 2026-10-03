@@ -18,13 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# Header
-msgid "Sharks"
-msgstr "Sharks"
-
-msgid "Enlightenment"
-msgstr "Enlightenment"
-
 # Footer
 msgid "Discover the incredible world of sharks and marine life. Learn about different species, their habitats, and why they matter."
 msgstr "Découvrez le monde incroyable des requins et de la vie marine. Apprenez à connaître différentes espèces, leurs habitats et pourquoi ils comptent."
@@ -32,8 +25,8 @@ msgstr "Découvrez le monde incroyable des requins et de la vie marine. Apprenez
 msgid "Explore"
 msgstr "Explorer"
 
-msgid "Sharks Enlightenment. All rights reserved."
-msgstr "Sharks Enlightenment. Tous droits réservés."
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
 
 # Shark page
 msgid "Back to Sharks"
