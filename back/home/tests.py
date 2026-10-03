@@ -490,3 +490,70 @@ class TranslationConfigTests(WagtailPageTestCase):
         paths = self.segment_paths(self.shark)
         self.assertIn("name", paths)
         self.assertNotIn("latin_name", paths)
+
+
+class SharkThumbnailTests(WagtailPageTestCase):
+    """
+    Tests for the shark cards on the sharks listing page.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.create(hostname="testsite", root_page=root_page, is_default_site=True)
+        homepage = HomePage(title="Home")
+        root_page.add_child(instance=homepage)
+        image = get_image_model().objects.create(title="Blue", file=get_test_image_file())
+        self.sharks = SharksPage(title="Sharks")
+        homepage.add_child(instance=self.sharks)
+        shark = SharkPage(
+            title="Blue shark",
+            name="Blue shark",
+            latin_name="Prionace glauca",
+            image=image,
+            size="3.8 m",
+            conservation_status="near threatened",
+        )
+        self.sharks.add_child(instance=shark)
+        card = {"name": "Blue shark", "image": image, "shark_page": shark}
+        self.sharks.sharks = [
+            ("shark_thumbnails", {**card, "scientific_name": "Prionace glauca"}),
+            ("shark_thumbnails", {**card, "scientific_name": ""}),
+        ]
+        self.sharks.save_revision().publish()
+
+    def test_scientific_name_badge_only_when_filled(self):
+        response = self.client.get(self.sharks.url)
+        self.assertContains(response, "Prionace glauca", count=1)
+
+    def test_image_is_cropped_to_a_square(self):
+        html = self.client.get(self.sharks.url).content.decode()
+        images = re.findall(r'<img[^>]*alt="Blue shark"[^>]*>', html)
+        self.assertEqual(len(images), 2)
+        for img in images:
+            self.assertIn(".fill-800x800.", img)
+            width = re.search(r'width="(\d+)"', img).group(1)
+            height = re.search(r'height="(\d+)"', img).group(1)
+            self.assertEqual(width, height)
+
+
+class AnatomyBlockTests(WagtailPageTestCase):
+    """
+    Tests for the interactive anatomy block.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.create(hostname="testsite", root_page=root_page, is_default_site=True)
+        image = get_image_model().objects.create(title="Shark", file=get_test_image_file())
+        self.homepage = HomePage(
+            title="Home",
+            body=[("anatomy", {"title": "Shark anatomy", "image": image})],
+        )
+        root_page.add_child(instance=self.homepage)
+
+    def test_labels_are_translated(self):
+        block = self.homepage.body[0]
+        with translation.override("fr"):
+            html = block.render()
+        self.assertIn("Nageoire dorsale", html)
+        self.assertNotIn("Dorsal Fin", html)

@@ -15,6 +15,12 @@ from wagtail.images.blocks import ImageChooserBlock
 class SharkThumbnail(StructBlock):
     name = CharBlock(help_text=_("Name of the shark"), required=True, label=_(""))
 
+    scientific_name = CharBlock(
+        help_text=_("Latin name of the species, e.g. Prionace glauca"),
+        required=False,
+        label=_("Scientific name"),
+    )
+
     image = ImageChooserBlock(
         required=True,
         help_text=_("Image of the shark"),

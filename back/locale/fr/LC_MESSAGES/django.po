@@ -223,3 +223,26 @@ msgstr "Un courant nous a pris par surprise et cette page n'a pas pu se charger.
 
 msgid "Try again"
 msgstr "Réessayer"
+
+# Anatomy block
+msgid "Dorsal Fin"
+msgstr "Nageoire dorsale"
+
+msgid "Gill slit"
+msgstr "Fente branchiale"
+
+msgid "Lorenzini bulbs"
+msgstr "Ampoules de Lorenzini"
+
+msgid "Caudal fin"
+msgstr "Nageoire caudale"
+
+msgid "Pectoral fin"
+msgstr "Nageoire pectorale"
+
+# Shark thumbnail block
+msgid "Scientific name"
+msgstr "Nom scientifique"
+
+msgid "Latin name of the species, e.g. Prionace glauca"
+msgstr "Nom latin de l'espèce, par ex. Prionace glauca"
