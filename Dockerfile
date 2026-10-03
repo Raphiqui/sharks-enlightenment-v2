@@ -49,4 +49,4 @@ RUN mkdir -p /app/media /app/static
 RUN python manage.py collectstatic --noinput --clear
 RUN python manage.py compilemessages
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn back.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4 --worker-class gthread --timeout 60 --access-logfile - --error-logfile - --log-level info --capture-output
+CMD set -xe; python manage.py migrate --noinput; python manage.py createcachetable; gunicorn back.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4 --worker-class gthread --timeout 60 --access-logfile - --error-logfile - --log-level info --capture-output

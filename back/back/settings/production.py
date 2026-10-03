@@ -82,6 +82,16 @@ STATICFILES_DIRS = [
 ]
 
 
+# Shared cache so every gunicorn worker sees the same state: Wagtail keeps its
+# site root paths (used to build page URLs) in the cache and only clears it in the
+# process that saved the page, so a per-process LocMemCache goes stale.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache",
+    }
+}
+
 if os.environ.get("DATABASE_URL"):
     DATABASES["default"] = dj_database_url.config(  # noqa
         default=os.environ.get("DATABASE_URL"),
