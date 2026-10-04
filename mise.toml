@@ -99,7 +99,7 @@ ls -lh back/backups/ 2>/dev/null || echo "No backups found"
 [tasks.push-to-prod]
 description = "Taks to merger main into master and push"
 run = """
-git checkout master && git merge main && git push && git checkout main
+git checkout main && git pull && git checkout master && git merge main && git push && git checkout main
 """
 
 [tasks.lint]
