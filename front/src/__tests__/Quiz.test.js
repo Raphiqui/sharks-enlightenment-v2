@@ -47,10 +47,10 @@ describe("Quiz", () => {
     vi.restoreAllMocks();
   });
 
-  it("fetches questions from /api/quiz and renders the first question", async () => {
+  it("fetches questions from /api/quiz in the page language and renders the first question", async () => {
     const wrapper = await mountQuiz();
 
-    expect(global.fetch).toHaveBeenCalledWith("/api/quiz");
+    expect(global.fetch).toHaveBeenCalledWith("/api/quiz?lang=en");
     expect(wrapper.text()).toContain("What is the largest fish species?");
     expect(wrapper.findAll(".sq-option")).toHaveLength(2);
   });
