@@ -207,6 +207,45 @@ class QuizApiTests(WagtailPageTestCase):
         self.assertEqual(second["question"], "Are sharks mammals?")
         self.assertEqual(second["options"][1], {"option": "No", "is_correct": True})
 
+    def quiz_with_question(self, question):
+        quiz_data = [
+            {
+                "type": "question_list",
+                "value": [
+                    {
+                        "question": question,
+                        "options": [
+                            {"type": "option", "value": {"option": "A", "is_correct": True}},
+                        ],
+                        "answer": "",
+                    }
+                ],
+            }
+        ]
+        quiz_page = QuizPage(title="Quiz", quiz=quiz_data)
+        self.homepage.add_child(instance=quiz_page)
+        return quiz_page
+
+    def test_quiz_endpoint_serves_requested_language(self):
+        quiz_page = self.quiz_with_question("Are sharks mammals?")
+        locale = Locale.objects.get_or_create(language_code="fr")[0]
+        translation = quiz_page.copy_for_translation(locale, copy_parents=True)
+        translation.quiz[0].value[0]["question"] = "Les requins sont-ils des mammifères ?"
+        translation.save_revision().publish()
+
+        fr = self.client.get("/api/quiz?lang=fr").json()
+        en = self.client.get("/api/quiz?lang=en").json()
+
+        self.assertEqual(fr["questions"][0]["question"], "Les requins sont-ils des mammifères ?")
+        self.assertEqual(en["questions"][0]["question"], "Are sharks mammals?")
+
+    def test_quiz_endpoint_falls_back_to_default_language(self):
+        self.quiz_with_question("Are sharks mammals?")
+
+        payload = self.client.get("/api/quiz?lang=fr").json()
+
+        self.assertEqual(payload["questions"][0]["question"], "Are sharks mammals?")
+
 
 class SeoTests(WagtailPageTestCase):
     """

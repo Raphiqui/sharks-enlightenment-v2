@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, h } from 'vue'
-import { t } from '../i18n.js'
+import { t, locale } from '../i18n.js'
 
 // ── Inline SVG icon components (no external dependency) ────────────────────
 function makeSvgIcon(...children) {
@@ -63,7 +63,7 @@ const Sparkles = makeSvgIcon(
 let observer = null
 const error = ref(null)
 
-const res = await fetch("/api/quiz")
+const res = await fetch(`/api/quiz?lang=${locale}`)
 
 let questions = await res.json()
 

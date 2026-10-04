@@ -1,6 +1,7 @@
 from ninja import NinjaAPI, Schema
 from ninja.errors import HttpError
 from pydantic import model_validator
+from wagtail.models import Locale
 
 from home.models import QuizPage
 
@@ -55,8 +56,15 @@ class QuizSchema(Schema):
 
 
 @api.get("/quiz", response=QuizSchema)
-def get_quiz(request):
-    quiz = QuizPage.objects.first()
+def get_quiz(request, lang: str | None = None):
+    # The API lives outside i18n_patterns, so the frontend passes the page language
+    # explicitly. Fall back to the default locale when there's no translation yet.
+    quizzes = QuizPage.objects.live()
+    quiz = None
+    if lang:
+        quiz = quizzes.filter(locale__language_code=lang).first()
+    if not quiz:
+        quiz = quizzes.filter(locale=Locale.get_default()).first()
 
     if not quiz:
         raise HttpError(404, "No Quiz page found")
