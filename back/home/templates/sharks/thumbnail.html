@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <a href="{% pageurl value.shark_page %}" class="absolute inset-0 z-10" aria-label="{% blocktrans with name=value.name %}Learn more about {{ name }}{% endblocktrans %}">
+    <a href="{% pageurl value.shark_page.localized %}" class="absolute inset-0 z-10" aria-label="{% blocktrans with name=value.name %}Learn more about {{ name }}{% endblocktrans %}">
       <span class="sr-only">{% blocktrans with name=value.name %}Learn more about {{ name }}{% endblocktrans %}</span>
     </a>
   </div>

@@ -37,7 +37,7 @@ class CallToAction(models.Model):
     @property
     def url(self):
         if self.page:
-            return self.page.url
+            return self.page.localized.url
         return self.external_url
 
     class Meta:
