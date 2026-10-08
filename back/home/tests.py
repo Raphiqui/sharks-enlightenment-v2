@@ -1,6 +1,8 @@
 import json
 import re
+from io import StringIO
 
+from django.core.management import call_command
 from django.template.loader import render_to_string
 from django.test import RequestFactory
 from django.utils import translation
@@ -13,6 +15,7 @@ from wagtail_localize.models import TranslationSource
 from wagtail_localize.operations import translate_object, translate_page_subtree
 
 from home.models import HomePage, QuizPage, SharkPage, SharksPage
+from home.snippets import CallToAction
 
 
 class HomeSetUpTests(WagtailPageTestCase):
@@ -596,3 +599,70 @@ class AnatomyBlockTests(WagtailPageTestCase):
             html = block.render()
         self.assertIn("Nageoire dorsale", html)
         self.assertNotIn("Dorsal Fin", html)
+
+
+class LocalizedLinkTests(WagtailPageTestCase):
+    """
+    Links picked in the admin point at one page (usually the English one): they
+    must follow the language being browsed.
+    """
+
+    def setUp(self):
+        root_page = Page.get_first_root_node()
+        Site.objects.all().delete()
+        self.homepage = HomePage(title="Home")
+        root_page.add_child(instance=self.homepage)
+        # The site root must be the home page for language-prefixed URLs.
+        Site.objects.create(hostname="testserver", root_page=self.homepage, is_default_site=True)
+        image = get_image_model().objects.create(title="Blue", file=get_test_image_file())
+        self.sharks = SharksPage(title="Sharks")
+        self.homepage.add_child(instance=self.sharks)
+        self.shark = SharkPage(
+            title="Blue shark",
+            slug="blue-shark",
+            name="Blue shark",
+            latin_name="Prionace glauca",
+            image=image,
+            size="3.8 m",
+            conservation_status="near threatened",
+        )
+        self.sharks.add_child(instance=self.shark)
+        self.sharks.sharks = [
+            ("shark_thumbnails", {"name": "Blue shark", "image": image, "shark_page": self.shark})
+        ]
+        self.sharks.hero_cta = CallToAction.objects.create(label="See", page=self.shark)
+        self.sharks.save_revision().publish()
+
+        # Plain copies, so the French content still references the English pages.
+        self.fr = Locale.objects.create(language_code="fr")
+        self.translate(self.homepage)
+        self.fr_sharks = self.translate(self.sharks)
+        self.fr_shark = self.translate(self.shark)
+
+    def translate(self, page):
+        translation = page.copy_for_translation(self.fr)
+        translation.save_revision().publish()
+        translation.refresh_from_db()
+        return translation
+
+    def test_french_shark_card_links_to_french_shark(self):
+        response = self.client.get(self.fr_sharks.url)
+        self.assertContains(response, f'href="{self.fr_shark.url}"')
+        self.assertNotContains(response, f'href="{self.shark.url}"')
+
+    def test_french_hero_cta_links_to_french_page(self):
+        response = self.client.get(self.fr_sharks.url)
+        self.assertContains(response, f'<a href="{self.fr_shark.url}"', count=2)
+
+    def test_link_falls_back_when_translation_is_unpublished(self):
+        self.fr_shark.unpublish()
+        response = self.client.get(self.fr_sharks.url)
+        self.assertContains(response, f'href="{self.shark.url}"')
+
+    def test_search_only_returns_pages_in_active_language(self):
+        # Pages are indexed on commit, which never happens inside a test case.
+        call_command("update_index", stdout=StringIO())
+        response = self.client.get("/fr/search/", {"query": "Blue shark"})
+        results = list(response.context["search_results"])
+        self.assertIn(self.fr_shark.page_ptr, results)
+        self.assertNotIn(self.shark.page_ptr, results)

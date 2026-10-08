@@ -22,16 +22,25 @@
 
     {# Hero Image #}
     <div class="relative overflow-hidden rounded-2xl mb-12">
-      {% image page.image fill-1140x500 as img %}
-      {% image page.image fill-480x210 as img_480 %}
+      {# fill- crops server-side around the focal point, but object-cover crops again whenever the box ratio #}
+      {# differs from the rendition's: phones get a near-square rendition matching their ~1.1:1 box, and #}
+      {# object-position keeps the browser's own crop on the focal point at in-between widths. #}
+      {% image page.image fill-640x560 as img_mobile_640 %}
+      {% image page.image fill-960x840 as img_mobile_960 %}
       {% image page.image fill-768x337 as img_768 %}
-      {% image page.image fill-1140x500 as img_1140 %}
-      <img src="{{ img.url }}" srcset="
-                    {{ img_480.url }} 480w,
+      {% image page.image fill-1140x500 as img %}
+      <picture>
+        <source media="(max-width: 639px)" srcset="
+                    {{ img_mobile_640.url }} 640w,
+                    {{ img_mobile_960.url }} 960w
+                " sizes="calc(100vw - 3rem)" />
+        <img src="{{ img.url }}" srcset="
                     {{ img_768.url }} 768w,
-                    {{ img_1140.url }} 1140w
-                " sizes="(max-width: 768px) 100vw, 1140px" alt="{{ img.alt }}"
-        class="w-full h-[300px] md:h-[500px] object-cover" />
+                    {{ img.url }} 1140w
+                " sizes="(max-width: 1200px) calc(100vw - 3rem), 1140px" alt="{{ img.alt }}"
+          style="--focal-mobile: {{ img_mobile_640.background_position_x }} {{ img_mobile_640.background_position_y }}; --focal: {{ img.background_position_x }} {{ img.background_position_y }};"
+          class="shark-hero-img w-full h-[300px] md:h-[500px] object-cover" />
+      </picture>
       <div class="absolute inset-0"
         style="background: linear-gradient(to top, var(--background), color-mix(in oklch, var(--background), transparent 50%), transparent);">
       </div>

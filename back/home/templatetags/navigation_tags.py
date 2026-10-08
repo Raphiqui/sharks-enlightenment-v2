@@ -7,10 +7,8 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
-    active_locale = Locale.get_active()
-    root_page = Site.find_for_request(context["request"]).root_page
-    root_page = root_page.get_translation(active_locale)
-    return root_page
+    # Falls back on the default-language root when the active one isn't translated yet.
+    return Site.find_for_request(context["request"]).root_page.localized
 
 
 @register.simple_tag(takes_context=True)
@@ -19,17 +17,11 @@ def get_menu_items(context):
     Retrieves the menu items based on the active language
     """
 
-    root_page = Site.find_for_request(context["request"]).root_page
-    active_locale = Locale.get_active()
-    root_page = root_page.get_translation(active_locale)
+    root_page = get_site_root(context)
 
     return (
         root_page.get_children()
-        .filter(
-            live=True,
-            show_in_menus=True,
-            locale=active_locale,
-        )
+        .filter(live=True, show_in_menus=True)
         .specific()
         .select_related("locale")
     )
