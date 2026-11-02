@@ -9,7 +9,7 @@
 {% include "includes/hero.html" %}
 
 <section class="pt-32 pb-24 min-h-screen">
-  <div class="w-full max-w-5xl mx-auto px-6">
+  <div class="w-full max-w-7xl mx-auto px-6">
     {# Section Header #}
     <div class="text-center mb-16" style="animation: fade-in-up 0.8s ease-out forwards;">
       <span
@@ -25,7 +25,7 @@
     {# Content Card #}
     <div class="rounded-2xl p-8 md:p-12 backdrop-blur-md border border-border/50"
       style="background-color: color-mix(in oklch, var(--card), transparent 30%); animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.2s; opacity: 0;">
-      <div class="richtext-content">
+      <div class="richtext-content max-w-3xl mx-auto">
         {{ page.body|richtext }}
       </div>
     </div>

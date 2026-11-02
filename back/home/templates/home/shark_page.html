@@ -8,7 +8,7 @@
 {% block content %}
 
 <section class="pt-32 pb-16 min-h-screen">
-  <div class="w-full max-w-6xl mx-auto px-6">
+  <div class="w-full max-w-7xl mx-auto px-6">
 
     {# Back Link #}
     <a href="{{ page.get_parent.url }}"
@@ -28,7 +28,7 @@
       {% image page.image fill-640x560 as img_mobile_640 %}
       {% image page.image fill-960x840 as img_mobile_960 %}
       {% image page.image fill-768x337 as img_768 %}
-      {% image page.image fill-1140x500 as img %}
+      {% image page.image fill-1232x540 as img %}
       <picture>
         <source media="(max-width: 639px)" srcset="
                     {{ img_mobile_640.url }} 640w,
@@ -36,8 +36,8 @@
                 " sizes="calc(100vw - 3rem)" />
         <img src="{{ img.url }}" srcset="
                     {{ img_768.url }} 768w,
-                    {{ img.url }} 1140w
-                " sizes="(max-width: 1200px) calc(100vw - 3rem), 1140px" alt="{{ img.alt }}"
+                    {{ img.url }} 1232w
+                " sizes="(max-width: 1280px) calc(100vw - 3rem), 1232px" alt="{{ img.alt }}"
           style="--focal-mobile: {{ img_mobile_640.background_position_x }} {{ img_mobile_640.background_position_y }}; --focal: {{ img.background_position_x }} {{ img.background_position_y }};"
           class="shark-hero-img w-full h-[300px] md:h-[500px] object-cover" />
       </picture>
@@ -125,7 +125,7 @@
     <div class="rounded-2xl p-8 md:p-12 backdrop-blur-md border border-border/50"
       style="background-color: color-mix(in oklch, var(--card), transparent 30%); animation: fade-in-up 0.8s ease-out forwards; animation-delay: 0.45s; opacity: 0;">
       <h2 class="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">{% trans "About this Species" %}</h2>
-      <div class="richtext-content">
+      <div class="richtext-content max-w-3xl">
         {{ page.description|richtext }}
       </div>
     </div>

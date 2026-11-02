@@ -9,16 +9,11 @@
 {% include "includes/hero.html" %}
 
 <section id="experiences" class="py-24 md:py-32 bg-background">
-    <div class="w-full max-w-7xl mx-auto px-6">
-        {% if page.body %}
-          <section class="py-16 bg-background">
-              <div class="w-full max-w-4xl mx-auto px-6">
-                  {% for block in page.body %}
-                    {% include_block block with index=forloop.counter0 %}
-                  {% endfor %}
-              </div>
-          </section>
-        {% endif %}
+    {# Blocks carry no outer margins: the gap between them matches the gutter inside the fact grid. #}
+    <div class="w-full max-w-7xl mx-auto px-6 flex flex-col gap-4 md:gap-5">
+        {% for block in page.body %}
+          {% include_block block with index=forloop.counter0 %}
+        {% endfor %}
     </div>
 </section>
 

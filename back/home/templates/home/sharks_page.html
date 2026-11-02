@@ -14,7 +14,7 @@
   <div class="w-full max-w-7xl mx-auto px-6">
 
     {# Shark Grid #}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
       {% for block in page.sharks %}
       {% include_block block with index=forloop.counter0 %}
       {% endfor %}
